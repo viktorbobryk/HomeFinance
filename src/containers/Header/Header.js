@@ -6,8 +6,8 @@ import {NavLink} from 'react-router-dom'
 const links = [
     {to: '/', label: 'Home', exact: true},
     {to: '/about-us', label: 'About Us', exact: false},
-    {to: '/my-cabinet', label: 'My cabinet', exact: false}
-
+    {to: '/my-cabinet', label: 'My cabinet', exact: false},
+    {to: '/auth', label: 'Authentication', exact: false}
 ];
 class Header extends Component {
     renderLinks=()=>{
