@@ -1,0 +1,27 @@
+.Header{
+  background: rgba(128, 128, 128, 0.44);
+  h1{
+    text-align: center;
+    margin-top: 0;
+  }
+  nav {
+    ul {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      list-style: none;
+      margin: 0;
+      padding: 20px;
+      li {
+        margin-right: 15px;
+        a{
+          text-decoration: none;
+          &.active {
+            font-weight: bold;
+            color: red;
+          }
+        }
+      }
+    }
+  }
+}
