@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import is from 'is_js';
+import {connect} from 'react-redux'
 import classes from './Auth.scss';
 import Button from  '../../components/UI/Button/Button';
 import Input from  '../../components/UI/Input/Input';
@@ -168,5 +169,15 @@ class Auth extends Component {
     }
 
 }
+function mapStateToProps(state){
+    return {
+        smth: state.auth.smth
+    }
+}
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         auth: (email, password, isLogin) => dispatch(auth(email, password, isLogin))
+//     }
+// }
 
-export default Auth;
+export default connect(mapStateToProps)(Auth);

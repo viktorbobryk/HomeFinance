@@ -1,6 +1,6 @@
 @import '../../styles/colors';
 .Header{
-  background: rgba(128, 128, 128, 0.44);
+  background: $grey;
   //background-color: $black;
   h1{
     text-align: center;
@@ -20,7 +20,10 @@
           text-decoration: none;
           &.active {
             font-weight: bold;
-            color: red;
+            color: $red;
+          }
+          &:hover{
+            border-bottom: 2px solid $red;
           }
         }
       }
