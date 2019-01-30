@@ -7,10 +7,15 @@ import MyCabinet from './containers/MyCabinet/MyCabinet'
 import Auth from './containers/Auth/Auth'
 import AboutUs from './containers/AboutUs/AboutUs'
 import './App.scss';
+import {autoLogin} from './store/actions/auth';
 
 class App extends Component {
 
-  render() {
+    componentDidMount() {
+        this.props.autoLogin()
+    }
+
+    render() {
     return (
         <Layout>
             <Switch>
@@ -24,10 +29,16 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state){
-    return{
-        smth: state.auth.token
+function mapStateToProps(state) {
+    console.log(state.auth.token);
+    return {
+        isAuthenticated: !!state.auth.token
     }
 }
 
-export default withRouter(connect(mapStateToProps)(App));
+function mapDispatchToProps(dispatch) {
+    return {
+        autoLogin: () => dispatch(autoLogin())
+    }
+}
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

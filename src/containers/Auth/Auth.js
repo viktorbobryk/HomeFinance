@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import classes from './Auth.scss';
 import Button from  '../../components/UI/Button/Button';
 import Input from  '../../components/UI/Input/Input';
+import {auth} from '../../store/actions/auth'
 
 class Auth extends Component {
     state = {
@@ -95,8 +96,8 @@ class Auth extends Component {
     }
 
     onChangeHandler = (event, controlName) => {
-        console.log(controlName);
-        console.log(event);
+        // console.log(controlName);
+        // console.log(event);
 
         const formControls = { ...this.state.formControls };
         const control = { ...formControls[controlName] };
@@ -149,7 +150,7 @@ class Auth extends Component {
 
                         <Button
                             type="success"
-                            // onClick={this.loginHandler}
+                            onClick={this.loginHandler}
                             disabled={!this.state.isFormValid}
                         >
                             Signin
@@ -157,7 +158,7 @@ class Auth extends Component {
 
                         <Button
                             type="primary"
-                            // onClick={this.registerHandler}
+                            onClick={this.registerHandler}
                             disabled={!this.state.isFormValid}
                         >
                             Signup
@@ -174,10 +175,10 @@ function mapStateToProps(state){
         smth: state.auth.smth
     }
 }
-// function mapDispatchToProps(dispatch) {
-//     return {
-//         auth: (email, password, isLogin) => dispatch(auth(email, password, isLogin))
-//     }
-// }
+function mapDispatchToProps(dispatch) {
+    return {
+        auth: (email, password, isLogin) => dispatch(auth(email, password, isLogin))
+    }
+}
 
-export default connect(mapStateToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
