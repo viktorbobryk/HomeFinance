@@ -1,16 +1,30 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {logout} from '../../store/actions/auth'
+import {fetchUserData} from "../../store/actions/myCabinet";
 
 class MyCabinet extends Component {
 
-  state = {
-
-  };
+  componentDidMount(){
+      this.props.fetchUserData()
+  }
 
   render() {
+    // console.log(this.props);
     return (
-      <h2>MyCabinet</h2>
+        <div>
+            <h2>MyCabinet</h2>
+          <button onClick={this.props.logout}>logout</button>
+            {/*<button onClick={this.props.fetchUserData}>fetch user data</button>*/}
+        </div>
+
     );
   }
 }
-
-export default MyCabinet;
+function mapDispatchToProps(dispatch){
+  return{
+    logout: ()=> dispatch(logout()),
+    fetchUserData:()=> dispatch(fetchUserData())
+  }
+}
+export default connect(null, mapDispatchToProps)(MyCabinet);

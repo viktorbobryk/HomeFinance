@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Layout from "./hoc/Layout/Layout";
-import {Route, Switch, withRouter} from 'react-router-dom';
+import {Route, Switch,  Redirect, withRouter} from 'react-router-dom';
 import {connect}from 'react-redux';
 import Home from './containers/Home/Home'
 import MyCabinet from './containers/MyCabinet/MyCabinet'
@@ -12,25 +12,39 @@ import {autoLogin} from './store/actions/auth';
 class App extends Component {
 
     componentDidMount() {
-        this.props.autoLogin()
+        this.props.autoLogin();
     }
 
     render() {
-    return (
-        <Layout>
+        let routes = (
             <Switch>
                 <Route path='/' exact component={Home}/>
                 <Route path='/about-us' component={AboutUs}/>
                 <Route path='/auth' component={Auth}/>
                 <Route path='/my-cabinet' component={MyCabinet}/>
+                <Redirect to="/" />
             </Switch>
+        );
+        if (this.props.isAuthenticated) {
+            routes = (
+                <Switch>
+                    <Route path='/' exact component={Home}/>
+                    <Route path='/about-us' component={AboutUs}/>
+                    <Route path='/my-cabinet' component={MyCabinet}/>
+                    <Redirect to="/my-cabinet" />
+                </Switch>
+            );
+
+        }
+    return (
+        <Layout>
+            {routes}
         </Layout>
     );
   }
 }
 
 function mapStateToProps(state) {
-    console.log(state.auth.token);
     return {
         isAuthenticated: !!state.auth.token
     }

@@ -1,7 +1,6 @@
 import {AUTH_SUCCESS, AUTH_LOGOUT} from '../actions/actionTypes';
 const initialState = {
     token: null,
-    smth: 'smth'
 };
 
 

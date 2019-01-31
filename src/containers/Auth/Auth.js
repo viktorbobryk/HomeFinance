@@ -15,6 +15,7 @@ class Auth extends Component {
                 type: 'email',
                 label: 'Email',
                 errorMessage: 'Enter valid email',
+                autocomplete: "on",
                 valid: false,
                 touched: false,
                 validation: {
@@ -27,6 +28,7 @@ class Auth extends Component {
                 type: 'tel',
                 label: 'Phone',
                 errorMessage: 'Enter valid phone number',
+                autocomplete: "on",
                 valid: false,
                 touched: false,
                 validation: {
@@ -39,6 +41,7 @@ class Auth extends Component {
                 type: 'password',
                 label: 'Password',
                 errorMessage: 'Enter valid password',
+                autocomplete: "off",
                 valid: false,
                 touched: false,
                 validation: {
@@ -53,7 +56,7 @@ class Auth extends Component {
         this.props.auth(
             this.state.formControls.email.value,
             this.state.formControls.password.value,
-            true
+            false
         )
     };
 
@@ -61,7 +64,7 @@ class Auth extends Component {
         this.props.auth(
             this.state.formControls.email.value,
             this.state.formControls.password.value,
-            false
+            true
         )
 
     };
@@ -96,8 +99,6 @@ class Auth extends Component {
     }
 
     onChangeHandler = (event, controlName) => {
-        // console.log(controlName);
-        // console.log(event);
 
         const formControls = { ...this.state.formControls };
         const control = { ...formControls[controlName] };
@@ -128,6 +129,7 @@ class Auth extends Component {
                     type={control.type}
                     value={control.value}
                     valid={control.valid}
+                    autoComplete="on"
                     touched={control.touched}
                     label={control.label}
                     shouldValidate={!!control.validation}
@@ -144,12 +146,12 @@ class Auth extends Component {
                 <div>
                     <h1>Authentication</h1>
 
-                    <form onSubmit={this.submitHandler} className={classes.AuthForm}>
+                    <form onSubmit={this.submitHandler} className={classes.AuthForm} autoComplete="on">
 
                         { this.renderInputs() }
 
                         <Button
-                            type="success"
+                            type="succsess"
                             onClick={this.loginHandler}
                             disabled={!this.state.isFormValid}
                         >
@@ -177,7 +179,7 @@ function mapStateToProps(state){
 }
 function mapDispatchToProps(dispatch) {
     return {
-        auth: (email, password, isLogin) => dispatch(auth(email, password, isLogin))
+        auth: (email, password, isRegistration) => dispatch(auth(email, password, isRegistration))
     }
 }
 
