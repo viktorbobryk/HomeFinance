@@ -129,7 +129,7 @@ class Auth extends Component {
                     type={control.type}
                     value={control.value}
                     valid={control.valid}
-                    autoComplete="on"
+                    autoComplete={control.autocomplete}
                     touched={control.touched}
                     label={control.label}
                     shouldValidate={!!control.validation}

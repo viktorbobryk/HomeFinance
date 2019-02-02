@@ -8,10 +8,10 @@ export function auth(email, password, isRegistration) {
             returnSecureToken: true
         };
 
-        let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyDrZdE7bKJHijuicQND_gvnk5qfJoN8PLw';
+        let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyAmPD6vG0-Moyw2c61U9IcaV54OLzAF4oo';
 
         if (isRegistration) {
-            url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyDrZdE7bKJHijuicQND_gvnk5qfJoN8PLw';
+            url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyAmPD6vG0-Moyw2c61U9IcaV54OLzAF4oo';
         }
 
         const response = await axios.post(url, authData);
@@ -37,7 +37,7 @@ export function createUser(email, password) {
         password: password
     };
     return async () => {
-       const res = await axios.post('https://react-quiz-37b66.firebaseio.com/users.json', user);
+       const res = await axios.post('https://homefinance-4beab.firebaseio.com//users.json', user);
        // console.log(res);
     }
 }

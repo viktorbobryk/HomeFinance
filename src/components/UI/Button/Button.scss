@@ -18,8 +18,8 @@
   &:active{
     box-shadow: 2px 2px 1px rgba(0, 0, 0, .3);
   }
-  .disabled{
-    background: $disabled;
+  &:disabled{
+    //background: $disabled;
     color: #000;
     cursor: not-allowed;
   }
