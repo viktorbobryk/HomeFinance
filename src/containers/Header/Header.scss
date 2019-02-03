@@ -1,28 +1,46 @@
 @import '../../styles/colors';
 .Header{
-  background: $grey;
+  background: $lightGrey;
+  //.left{
+  //  float: left;
+  //}
+  //.right{
+  //  border: none;
+  //  float: right;
+  //}
   h1{
     text-align: center;
     margin-top: 0;
   }
   nav {
     ul {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      list-style: none;
+      background-color: $grey;
+      list-style-type: none;
       margin: 0;
-      padding: 20px;
+      padding: 0;
+      overflow: hidden;
       li {
-        margin-right: 15px;
+        border-right: 1px solid $lightGrey;
+        &.left{
+          float: left;        }
+        &.right{
+          float: right;
+        }
+        &:last-child{
+          border-left: 1px solid $lightGrey;
+        }
         a{
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
           text-decoration: none;
+          text-transform: uppercase;
           &.active {
-            font-weight: bold;
-            color: $red;
+            background-color: $darkGrey;
           }
           &:hover{
-            border-bottom: 2px solid $red;
+            background-color: $darkGrey;
           }
         }
       }

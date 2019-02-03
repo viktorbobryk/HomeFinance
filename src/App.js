@@ -4,8 +4,11 @@ import {Route, Switch,  Redirect, withRouter} from 'react-router-dom';
 import {connect}from 'react-redux';
 import Home from './containers/Home/Home'
 import MyCabinet from './containers/MyCabinet/MyCabinet'
-import Auth from './containers/Auth/Auth'
 import AboutUs from './containers/AboutUs/AboutUs'
+import Login from './containers/Login/Login'
+import Blog from './containers/Blog/Blog'
+import Logout from './containers/Logout/Logout'
+import Registration from './containers/Registration/Registration'
 import './App.scss';
 import {autoLogin} from './store/actions/auth';
 
@@ -20,8 +23,9 @@ class App extends Component {
             <Switch>
                 <Route path='/' exact component={Home}/>
                 <Route path='/about-us' component={AboutUs}/>
-                <Route path='/auth' component={Auth}/>
-                <Route path='/my-cabinet' component={MyCabinet}/>
+                <Route path='/blog' component={Blog}/>
+                <Route path='/login' component={Login}/>
+                <Route path='/registration' component={Registration}/>
                 <Redirect to="/" />
             </Switch>
         );
@@ -30,7 +34,9 @@ class App extends Component {
                 <Switch>
                     <Route path='/' exact component={Home}/>
                     <Route path='/about-us' component={AboutUs}/>
+                    <Route path='/blog' component={Blog}/>
                     <Route path='/my-cabinet' component={MyCabinet}/>
+                    <Route path='/logout' component={Logout}/>
                     <Redirect to="/my-cabinet" />
                 </Switch>
             );

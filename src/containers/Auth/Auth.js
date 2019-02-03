@@ -23,19 +23,19 @@ class Auth extends Component {
                     email: true
                 }
             },
-            phone: {
-                value: '+380.',
-                type: 'tel',
-                label: 'Phone',
-                errorMessage: 'Enter valid phone number',
-                autocomplete: "on",
-                valid: false,
-                touched: false,
-                validation: {
-                    required: true,
-                    phone: true
-                }
-            },
+            // phone: {
+            //     value: '+380.',
+            //     type: 'tel',
+            //     label: 'Phone',
+            //     errorMessage: 'Enter valid phone number',
+            //     autocomplete: "on",
+            //     valid: false,
+            //     touched: false,
+            //     validation: {
+            //         required: true,
+            //         phone: true
+            //     }
+            // },
             password: {
                 value: '',
                 type: 'password',
@@ -141,30 +141,35 @@ class Auth extends Component {
     }
 
     render() {
+        let button;
+        if(this.props.isLogin){
+            button = (
+                <Button
+            type="succsess"
+            onClick={this.loginHandler}
+            disabled={!this.state.isFormValid}
+        >
+            Login
+            </Button>)
+        }else if(!this.props.isLogin){
+            button =
+            (<Button
+                type="primary"
+                onClick={this.registerHandler}
+                disabled={!this.state.isFormValid}
+            >
+                Signup
+            </Button>)
+        }
+
         return (
             <div className={classes.Auth}>
                 <div>
                     <h1>Authentication</h1>
 
                     <form onSubmit={this.submitHandler} className={classes.AuthForm} autoComplete="on">
-
                         { this.renderInputs() }
-
-                        <Button
-                            type="succsess"
-                            onClick={this.loginHandler}
-                            disabled={!this.state.isFormValid}
-                        >
-                            Signin
-                        </Button>
-
-                        <Button
-                            type="primary"
-                            onClick={this.registerHandler}
-                            disabled={!this.state.isFormValid}
-                        >
-                            Signup
-                        </Button>
+                        {button}
                     </form>
                 </div>
             </div>
@@ -172,15 +177,15 @@ class Auth extends Component {
     }
 
 }
-function mapStateToProps(state){
-    return {
-        smth: state.auth.smth
-    }
-}
+// function mapStateToProps(state){
+//     return {
+//         isAuthenticated: !!state.auth.token
+//     }
+// }
 function mapDispatchToProps(dispatch) {
     return {
         auth: (email, password, isRegistration) => dispatch(auth(email, password, isRegistration))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+export default connect(null, mapDispatchToProps)(Auth);

@@ -16,7 +16,6 @@ export function auth(email, password, isRegistration) {
 
         const response = await axios.post(url, authData);
         const data = response.data;
-        console.log(response);
         const expirationDate = new Date(new Date().getTime() + data.expiresIn * 1000);
 
         localStorage.setItem('token', data.idToken);
@@ -37,11 +36,11 @@ export function createUser(email, password) {
         password: password
     };
     return async () => {
-       const res = await axios.post('https://homefinance-4beab.firebaseio.com//users.json', user);
-       // console.log(res);
+        await axios.post('https://homefinance-4beab.firebaseio.com//users.json', user);
     }
 }
 export function autoLogout(time) {
+
     return dispatch => {
         setTimeout(() => {
             dispatch(logout())

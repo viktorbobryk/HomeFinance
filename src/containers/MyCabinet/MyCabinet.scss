@@ -1,0 +1,68 @@
+@import '../../styles/colors';
+.Mycabinet {
+  background: $background;
+  padding: 10px;
+  overflow: hidden;
+  .userInfo{
+  background-color: $grey;
+  border: 2px solid $white;
+  padding: 10px;
+  margin-bottom: 10px;
+  color: $white;
+  line-height: 2;
+    span{
+      float: right;
+      &:last-child{
+        margin-right: 10px;
+      }
+    }
+  }
+  nav {
+    display: inline-block;
+    width: 20%;
+    ul {
+      border: 2px solid $white;
+      min-width: 150px;
+      background-color: $grey;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+
+      li {
+        border-bottom: 1px solid #cecece;
+        &.left{
+
+            }
+        &.right{
+
+        }
+        &:last-child{
+          border-bottom: none;
+        }
+        a{
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+          text-transform: uppercase;
+          &.active {
+            background-color: $darkGrey;
+          }
+          &:hover{
+            background-color: $darkGrey;
+          }
+        }
+      }
+    }
+  }
+  .userContent{
+    display: inline-block;
+    width: 78%;
+    border: 2px solid white;
+    float: right;
+    height: 450px;
+    background: $grey;
+  }
+}

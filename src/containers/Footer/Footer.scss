@@ -1,6 +1,6 @@
-
+@import '../../styles/colors';
 .Footer{
-  background: rgba(128, 128, 128, 0.44);
+  background: $lightGrey;
   padding: 30px;
   text-align: center;
 }
