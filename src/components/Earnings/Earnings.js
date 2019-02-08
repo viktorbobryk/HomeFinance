@@ -1,8 +1,11 @@
 import React from 'react';
 
-const Earnings = () => {
+const Earnings = (props) => {
+
   return (
-    <div>Earnings</div>
+    <div>
+      <div>Earnings</div>
+    </div>
   );
 };
 

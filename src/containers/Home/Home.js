@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import Loader from '../../components/UI/Loader/Loader';
+import  classes from './Home.scss';
 
 class Home extends Component {
 
@@ -8,9 +11,23 @@ class Home extends Component {
 
   render() {
     return (
-      <h2>Home</h2>
+        <div>
+            <h2 className={classes.header}>Home</h2>
+            {
+                this.props.loading
+                    ? <Loader />
+                    : <div>Content</div>
+            }
+        </div>
+
     );
   }
 }
 
-export default Home;
+function mapStateToProps(state){
+    return {
+        loading: state.auth.loading
+    }
+}
+
+export default connect(mapStateToProps)(Home);

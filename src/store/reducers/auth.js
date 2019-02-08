@@ -1,5 +1,6 @@
 import {AUTH_SUCCESS, AUTH_LOGOUT} from '../actions/actionTypes';
 const initialState = {
+    loading: true,
     token: null,
 };
 

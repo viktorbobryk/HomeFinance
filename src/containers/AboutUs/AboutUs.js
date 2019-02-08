@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import Loader from '../../components/UI/Loader/Loader';
+import  classes from './AboutUs.scss';
 
 class AboutAs extends Component {
 
@@ -8,9 +11,22 @@ class AboutAs extends Component {
 
   render() {
     return (
-      <h2>About Us</h2>
+        <div>
+            <h2 className={classes.header}>About Us</h2>
+            {
+                this.props.loading
+                    ? <Loader />
+                    : <div>Content</div>
+            }
+        </div>
     );
   }
 }
 
-export default AboutAs;
+function mapStateToProps(state){
+    return {
+        loading: state.auth.loading
+    }
+}
+
+export default connect(mapStateToProps)(AboutAs);

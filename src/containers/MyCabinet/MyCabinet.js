@@ -7,11 +7,12 @@ import classes from './MyCabinet.scss';
 import Earnings from '../../components/Earnings/Earnings';
 import Salary from '../../components/Salary/Salary';
 import Spending from '../../components/Spending/Spending';
+import Charts from '../../components/Charts/Charts';
 import Others from '../../components/Others/Others';
 
+const arr = [<Earnings/>, <Salary/>, <Spending/>, <Charts/>, <Others/>];
+let child = null;
 
-const arr = [<Earnings/>, <Salary/>, <Spending/>, <Others/>];
-let child = arr[0];
 
 class MyCabinet extends Component {
 
@@ -21,10 +22,7 @@ class MyCabinet extends Component {
   }
 
     clickHandler = (id)=>{
-      let index = id;
-      child = arr[index];
-      console.log(index);
-      // console.log(arr[index]);
+      child = arr[id];
     };
 
   render() {
@@ -33,7 +31,8 @@ class MyCabinet extends Component {
           {to: `${path}/earnings`, label: 'earnings', exact: true, id: 0},
           {to: `${path}/salary`, label: 'salary', exact: false, id: 1},
           {to: `${path}/spending`, label: 'spending', exact: false,id: 2},
-          {to: `${path}/other`, label: 'other1', exact: false, id: 3},
+          {to: `${path}/charts`, label: 'charts', exact: false, id: 3},
+          {to: `${path}/other`, label: 'other', exact: false, id: 4},
       ];
 
 
@@ -56,7 +55,7 @@ class MyCabinet extends Component {
       };
     return (
         <div className={classes.Mycabinet}>
-            <div className={classes.userInfo}>Save your money with Home Finance &trade;<span>userName</span> <span><i className="fas fa-user-circle fa-2x"></i></span></div>
+            <div className={classes.userInfo}>Manage your family budget with Home Finance &trade;<span>userName</span> <span><i className="fas fa-user-circle fa-2x"></i></span></div>
             <nav>
                 <ul>
                     {renderLinks()}
@@ -69,10 +68,15 @@ class MyCabinet extends Component {
   }
 }
 
+function mapStateToProps(state){
+    return{
+        users: state.myCabinet.users
+    }
+}
 function mapDispatchToProps(dispatch){
   return{
     logout: ()=> dispatch(logout()),
     fetchUserData:()=> dispatch(fetchUserData())
   }
 }
-export default connect(null, mapDispatchToProps)(MyCabinet);
+export default connect(mapStateToProps, mapDispatchToProps)(MyCabinet);
