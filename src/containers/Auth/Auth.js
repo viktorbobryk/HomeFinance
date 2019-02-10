@@ -177,11 +177,7 @@ class Auth extends Component {
     }
 
 }
-// function mapStateToProps(state){
-//     return {
-//         isAuthenticated: !!state.auth.token
-//     }
-// }
+
 function mapDispatchToProps(dispatch) {
     return {
         auth: (email, password, isRegistration) => dispatch(auth(email, password, isRegistration))

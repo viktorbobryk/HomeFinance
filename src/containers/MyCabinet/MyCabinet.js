@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {NavLink} from 'react-router-dom'
 import {logout} from '../../store/actions/auth'
 import {fetchUserData} from "../../store/actions/myCabinet";
+import {activeUser} from "../../store/actions/auth"
 import classes from './MyCabinet.scss';
 import Earnings from '../../components/Earnings/Earnings';
 import Salary from '../../components/Salary/Salary';
@@ -18,7 +19,8 @@ class MyCabinet extends Component {
 
 
   componentDidMount(){
-      this.props.fetchUserData()
+      this.props.fetchUserData();
+      this.props.getActiveUser();
   }
 
     clickHandler = (id)=>{
@@ -55,7 +57,7 @@ class MyCabinet extends Component {
       };
     return (
         <div className={classes.Mycabinet}>
-            <div className={classes.userInfo}>Manage your family budget with Home Finance &trade;<span>userName</span> <span><i className="fas fa-user-circle fa-2x"></i></span></div>
+            <div className={classes.userInfo}>Manage your family budget with Home Finance &trade;<span>{this.props.activeUser}</span> <span><i className="fas fa-user-circle fa-2x"></i></span></div>
             <nav>
                 <ul>
                     {renderLinks()}
@@ -70,13 +72,15 @@ class MyCabinet extends Component {
 
 function mapStateToProps(state){
     return{
-        users: state.myCabinet.users
+        users: state.myCabinet.users,
+        activeUser: state.auth.activeUser
     }
 }
 function mapDispatchToProps(dispatch){
   return{
     logout: ()=> dispatch(logout()),
-    fetchUserData:()=> dispatch(fetchUserData())
+    fetchUserData:()=> dispatch(fetchUserData()),
+    getActiveUser: ()=> dispatch(activeUser())
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MyCabinet);

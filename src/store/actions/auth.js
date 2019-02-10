@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {AUTH_LOGOUT, AUTH_SUCCESS} from './actionTypes';
+import {AUTH_LOGOUT, AUTH_SUCCESS, ACTIVE_USER} from './actionTypes';
 
 export function auth(email, password, isRegistration) {
     return async dispatch => {
@@ -22,11 +22,26 @@ export function auth(email, password, isRegistration) {
         localStorage.setItem('userId', data.localId);
         localStorage.setItem('expirationDate', expirationDate);
 
+        dispatch(activeUser(email));
         dispatch(authSuccess(data.idToken));
         dispatch(autoLogout(data.expiresIn));
         if(isRegistration){
             dispatch(createUser(authData.email, authData.password))
         }
+    }
+}
+
+export function activeUser(email){
+    let userEmail = email;
+    if(email){
+        localStorage.setItem('activeUser', email);
+    }else{
+        userEmail = localStorage.getItem('activeUser');
+    }
+
+    return {
+        type: ACTIVE_USER,
+        payload: userEmail
     }
 }
 
@@ -52,6 +67,7 @@ export function logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.removeItem('expirationDate');
+    localStorage.removeItem('activeUser');
     return {
         type: AUTH_LOGOUT
     }

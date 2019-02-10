@@ -6,7 +6,7 @@ export function fetchUserData() {
     return async (dispatch, getState) => {
         const res = await axios.get('/users.json');
         dispatch(saveUsers(res.data));
-        console.log(res.data);
+        // console.log(res.data);
     }
 }
 export function saveUsers(data){
