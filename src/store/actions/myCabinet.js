@@ -1,5 +1,5 @@
 import axios from '../../axios/axios';
-import {SAVE_USER} from './actionTypes';
+import {SAVE_USER, EARNINGS} from './actionTypes';
 
 export function fetchUserData() {
 
@@ -14,5 +14,11 @@ export function saveUsers(data){
         type: SAVE_USER,
         payload: data
 
+    }
+}
+export function showEarnings(val) {
+    return {
+        type: EARNINGS,
+        payload: val
     }
 }

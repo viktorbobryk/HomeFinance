@@ -21,7 +21,7 @@
     display: inline-block;
     width: 20%;
     ul {
-      border: 2px solid $white;
+      border: 2px solid $error;
       min-width: 150px;
       background-color: $grey;
       list-style-type: none;
@@ -30,6 +30,7 @@
       overflow: hidden;
 
       li {
+        position: relative;
         border-bottom: 1px solid #cecece;
         &.left{
 
@@ -49,6 +50,27 @@
           text-transform: uppercase;
           &.active {
             background-color: $darkGrey;
+            &::after{
+              position: absolute;
+              right: 0;
+              top: 0;
+              content: '';
+              width: 5px;
+              height: 100%;
+              border-right: 4px solid $error;
+            }
+          }
+          &:focus {
+            background-color: $darkGrey;
+            &::after{
+              position: absolute;
+              right: 0;
+              top: 0;
+              content: '';
+              width: 5px;
+              height: 100%;
+              border-right: 4px solid $error;
+            }
           }
           &:hover{
             background-color: $darkGrey;
@@ -60,9 +82,21 @@
   .userContent{
     display: inline-block;
     width: 78%;
-    border: 2px solid white;
+    border: 2px solid $error;
     float: right;
     height: 450px;
     background: $grey;
+  }
+}
+.activeLink{
+  background-color: $darkGrey;
+  &::after{
+    position: absolute;
+    right: 0;
+    top: 0;
+    content: '';
+    width: 5px;
+    height: 100%;
+    border-right: 4px solid $error;
   }
 }

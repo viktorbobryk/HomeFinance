@@ -4,7 +4,6 @@ const initialState = {
     token: null,
     activeUser: null
 };
-console.log(initialState);
 
 export default function authReducer(state = initialState, action) {
 

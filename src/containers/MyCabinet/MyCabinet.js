@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {NavLink} from 'react-router-dom'
+import {NavLink, withRouter} from 'react-router-dom'
 import {logout} from '../../store/actions/auth'
 import {fetchUserData} from "../../store/actions/myCabinet";
 import {activeUser} from "../../store/actions/auth"
@@ -12,7 +12,8 @@ import Charts from '../../components/Charts/Charts';
 import Others from '../../components/Others/Others';
 
 const arr = [<Earnings/>, <Salary/>, <Spending/>, <Charts/>, <Others/>];
-let child = null;
+
+let child = arr[0];
 
 
 class MyCabinet extends Component {
@@ -31,21 +32,22 @@ class MyCabinet extends Component {
       const path = this.props.match.path;
       let links = [
           {to: `${path}/earnings`, label: 'earnings', exact: true, id: 0},
-          {to: `${path}/salary`, label: 'salary', exact: false, id: 1},
-          {to: `${path}/spending`, label: 'spending', exact: false,id: 2},
-          {to: `${path}/charts`, label: 'charts', exact: false, id: 3},
-          {to: `${path}/other`, label: 'other', exact: false, id: 4},
+          {to: `${path}/salary`, label: 'salary', exact: true, id: 1},
+          {to: `${path}/spending`, label: 'spending', exact: true,id: 2},
+          {to: `${path}/charts`, label: 'charts', exact: true, id: 3},
+          {to: `${path}/other`, label: 'other', exact: true, id: 4},
       ];
 
 
           let renderLinks=()=>{
+
           return links.map((link, index)=>{
               return(
-                  <li key={index} className={link.className}>
+                  <li key={index}>
                       <NavLink
+                          className={(this.props.location.pathname === '/my-cabinet' && link.id === 0) ? classes.activeLink : null}
                           to={link.to}
                           exact={link.exact}
-                          className={links.className}
                           activeClassName={classes.active}
                           onClick={()=>this.clickHandler(link.id)}
                       >
@@ -83,4 +85,4 @@ function mapDispatchToProps(dispatch){
     getActiveUser: ()=> dispatch(activeUser())
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(MyCabinet);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MyCabinet));

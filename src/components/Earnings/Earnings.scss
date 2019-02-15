@@ -1,0 +1,12 @@
+@import '../../styles/colors';
+.Earnings{
+  .earningsHeader{
+    background: $error;
+    margin-bottom: 10px;
+
+  }
+  form{
+    width: 70%;
+    margin: auto;
+  }
+}

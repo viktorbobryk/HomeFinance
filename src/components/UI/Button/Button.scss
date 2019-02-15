@@ -35,3 +35,21 @@
   background: $primary;
   color: $white;
 }
+.header{
+  background: $error;
+  border-radius: 0;
+  border: none;
+  margin-right: 0;
+  border-right: 1px solid $disabled;
+  &:active{
+    box-shadow: none;
+  }
+}
+.activeHeader{
+  border-radius: 0;
+  border: none;
+  margin-right: 0;
+  border-right: 1px solid $disabled;
+  background: $grey;
+  box-shadow: none;
+}
