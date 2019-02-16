@@ -1,19 +1,14 @@
 import React, {Component} from 'react';
-import {databaseRef} from "../../config/firebase";
+import generateDb from "../../utils/dbGenerator";
 class AboutAs extends Component {
 
   state = {
 
   };
 
-   createUser=function(){
-       console.log(databaseRef);
-      var a= databaseRef.ref("users");
-              a.push().set({
-    username: "asd",
-    email: "email@mail.com"
-    
-  });
+   createDb=function(){
+      generateDb();
+              
        
    };
     
@@ -22,7 +17,7 @@ class AboutAs extends Component {
     return (
             <div>
       <h2>About Us</h2>
-      <button onClick={this.createUser}>Create user</button>
+      <button onClick={this.createDb}>Create DB</button>
       </div>
     );
   }
