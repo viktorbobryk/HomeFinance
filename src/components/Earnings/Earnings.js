@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import classes from './Earnings.scss';
-// import {NavLink, withRouter} from 'react-router-dom';
-
-import {showEarnings} from "../../store/actions/myCabinet";
+import Loader from '../../components/UI/Loader/Loader';
+import Table from '../../components/UI/Table/Table';
+import {showEarnings, fetchUsersData} from "../../store/actions/myCabinet";
 import is from 'is_js';
 import {connect} from 'react-redux';
 import axios from '../../axios/axios';
@@ -11,8 +11,12 @@ import Input from  '../../components/UI/Input/Input';
 import Select from '../../components/UI/Select/Select'
 
 class Earnings extends Component {
+     componentDidMount(){
+        this.props.fetchUsersData();
+    }
 
     state = {
+         isLoading: true,
         isFormValid: false,
         earningSum: '',
         earningDate: '',
@@ -150,6 +154,7 @@ class Earnings extends Component {
     };
     showEarningHandler = (val) =>{
         this.props.showEarnings(val);
+        this.props.fetchUsersData()
     };
     renderInputs() {
         return Object.keys(this.state.formControls).map((controlName, index) => {
@@ -201,7 +206,7 @@ class Earnings extends Component {
           </form>
       }
       if(this.props.earnings){
-          formContent = <div>your earnings will be here</div>
+          formContent = <Table data={this.props.data}/>
       }
     return (
       <div className={classes.Earnings}>
@@ -219,21 +224,30 @@ class Earnings extends Component {
                   show earnings
               </Button>
           </div>
-          {formContent}
+          {
+              this.props.loading ?
+                  <Loader/>
+                  :
+                  formContent
+          }
       </div>
     );
   }
 }
  function mapStateToProps(state){
+    // console.log(state.myCabinet.usersData);
     return{
          activeUser: state.auth.activeUser,
-         earnings: state.myCabinet.showEarnings
+         earnings: state.myCabinet.showEarnings,
+         loading: state.auth.loading,
+         data: state.myCabinet.usersData
      }
  }
 
 function mapDispatchToProps(dispatch){
     return{
-        showEarnings: (val)=> dispatch(showEarnings(val))
+        showEarnings: (val)=> dispatch(showEarnings(val)),
+        fetchUsersData: ()=> dispatch(fetchUsersData())
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Earnings);

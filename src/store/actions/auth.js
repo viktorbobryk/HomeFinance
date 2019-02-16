@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {AUTH_LOGOUT, AUTH_SUCCESS, ACTIVE_USER} from './actionTypes';
+import {AUTH_LOGOUT, AUTH_SUCCESS, ACTIVE_USER, LOADING} from './actionTypes';
 
 export function auth(email, password, isRegistration) {
     return async dispatch => {
@@ -95,5 +95,11 @@ export function authSuccess(token) {
     return {
         type: AUTH_SUCCESS,
         token
+    }
+}
+export function loading(val) {
+    return {
+        type: LOADING,
+        payload: val
     }
 }

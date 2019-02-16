@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {NavLink, withRouter} from 'react-router-dom'
 import {logout} from '../../store/actions/auth'
-import {fetchUserData} from "../../store/actions/myCabinet";
+import {fetchUsers} from "../../store/actions/myCabinet";
 import {activeUser} from "../../store/actions/auth"
 import classes from './MyCabinet.scss';
 import Earnings from '../../components/Earnings/Earnings';
@@ -20,7 +20,7 @@ class MyCabinet extends Component {
 
 
   componentDidMount(){
-      this.props.fetchUserData();
+      this.props.fetchUsers();
       this.props.getActiveUser();
   }
 
@@ -81,7 +81,7 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
   return{
     logout: ()=> dispatch(logout()),
-    fetchUserData:()=> dispatch(fetchUserData()),
+      fetchUsers:()=> dispatch(fetchUsers()),
     getActiveUser: ()=> dispatch(activeUser())
   }
 }

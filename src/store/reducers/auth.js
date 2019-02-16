@@ -1,4 +1,4 @@
-import {AUTH_SUCCESS, AUTH_LOGOUT, ACTIVE_USER} from '../actions/actionTypes';
+import {AUTH_SUCCESS, AUTH_LOGOUT, ACTIVE_USER, LOADING} from '../actions/actionTypes';
 const initialState = {
     loading: true,
     token: null,
@@ -18,6 +18,10 @@ export default function authReducer(state = initialState, action) {
         case ACTIVE_USER:
             return {
                 ...state,  activeUser: action.payload
+            };
+        case LOADING:
+            return {
+                ...state,  loading: action.payload
             };
         default:
             return state
