@@ -18,9 +18,9 @@ class Earnings extends Component {
     state = {
          isLoading: true,
         isFormValid: false,
-        earningSum: '',
-        earningDate: '',
-        earningCategory: '',
+        earningSum: null,
+        earningDate: null,
+        earningCategory: 'salary',
         formControls: {
             sum: {
                 value: '',
@@ -69,7 +69,9 @@ class Earnings extends Component {
         });
 
         await axios.post('/earnings.json', userData);
-
+        console.log('earningSum:', userData.earningSum);
+        console.log('earningSDate:', userData.earningDate);
+        console.log('earningCategory:', userData.earningCategory);
         this.setState({
             isFormValid: false,
             earningSum: '',
@@ -97,11 +99,11 @@ class Earnings extends Component {
             isValid = value.trim() !== '' && isValid
         }
 
-        if (validation.email) {
-            isValid = is.email(value) && isValid
+        if (validation.number) {
+            isValid = is.existy(value) && isValid
         }
-        if (validation.phone) {
-            isValid = is.eppPhone(value) && isValid
+        if (validation.date) {
+            isValid = is.existy(value) && isValid
         }
 
         if (validation.minLength) {
@@ -133,7 +135,7 @@ class Earnings extends Component {
                 this.setState({
                     formControls: formControls,
                     isFormValid: isFormValid,
-                    earningSum: userInput,
+                    earningSum: +userInput,
                     user: this.props.activeUser
                 })
             }
@@ -141,7 +143,7 @@ class Earnings extends Component {
                 this.setState({
                     formControls: formControls,
                     isFormValid: isFormValid,
-                    earningDate: userInput,
+                    earningDate: new Date(userInput),
                     user: this.props.activeUser
                 })
             }
@@ -235,7 +237,6 @@ class Earnings extends Component {
   }
 }
  function mapStateToProps(state){
-    // console.log(state.myCabinet.usersData);
     return{
          activeUser: state.auth.activeUser,
          earnings: state.myCabinet.showEarnings,

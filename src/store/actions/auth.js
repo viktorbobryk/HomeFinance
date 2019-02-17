@@ -14,20 +14,27 @@ export function auth(email, password, isRegistration) {
             url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyAmPD6vG0-Moyw2c61U9IcaV54OLzAF4oo';
         }
 
-        const response = await axios.post(url, authData);
-        const data = response.data;
-        const expirationDate = new Date(new Date().getTime() + data.expiresIn * 1000);
+        try{
+            const response = await axios.post(url, authData);
+            const data = response.data;
+            const expirationDate = new Date(new Date().getTime() + data.expiresIn * 1000);
+            localStorage.setItem('token', data.idToken);
+            localStorage.setItem('userId', data.localId);
+            localStorage.setItem('expirationDate', expirationDate);
 
-        localStorage.setItem('token', data.idToken);
-        localStorage.setItem('userId', data.localId);
-        localStorage.setItem('expirationDate', expirationDate);
-
-        dispatch(activeUser(email));
-        dispatch(authSuccess(data.idToken));
-        dispatch(autoLogout(data.expiresIn));
-        if(isRegistration){
-            dispatch(createUser(authData.email, authData.password))
+            dispatch(activeUser(email));
+            dispatch(authSuccess(data.idToken));
+            dispatch(autoLogout(data.expiresIn));
+            if(isRegistration){
+                dispatch(createUser(authData.email, authData.password))
+            }
         }
+        catch(e){
+            console.log(e);
+            alert('user with such mail is already registered')
+        }
+
+
     }
 }
 
@@ -51,7 +58,14 @@ export function createUser(email, password) {
         password: password
     };
     return async () => {
-        await axios.post('https://homefinance-4beab.firebaseio.com//users.json', user);
+        try{
+            await axios.post('https://homefinance-4beab.firebaseio.com//users.json', user);
+            alert('created new user ' + user.name)
+        }
+        catch(e){
+            console.log(e);
+        }
+
     }
 }
 export function autoLogout(time) {

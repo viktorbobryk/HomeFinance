@@ -2,8 +2,9 @@ import React from 'react';
 import classes from './table.scss'
 
 const Table = (props) => {
-    if((!props)){
-        props = {}
+    console.log(props);
+    if((props.data === undefined || props.data === null)){
+        return <h2>you have not added any earnings yet</h2>;
     }
   return (
       <table className={classes.table}>
