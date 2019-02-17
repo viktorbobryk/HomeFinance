@@ -1,7 +1,51 @@
 import axios from 'axios'
 import {AUTH_LOGOUT, AUTH_SUCCESS, ACTIVE_USER, LOADING} from './actionTypes';
+import {firebaseRef} from '../../config/firebase';
 
-export function auth(email, password, isRegistration) {
+export function auth(email, password, isRegistration){
+    return async dispatch => {
+        if(isRegistration){
+   firebaseRef.auth().createUserWithEmailAndPassword(email, password)
+    .catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  if (errorCode === 'auth/weak-password') {
+    alert('The password is too weak.');
+  } else {
+    alert(errorMessage);
+  }
+  console.log(error);
+});
+    
+}
+else{
+    
+   firebaseRef.auth().signInWithEmailAndPassword(email, password).then(
+           function(userCred){
+               console.log(firebaseRef.auth().currentUser);
+            dispatch(activeUser(firebaseRef.auth().currentUser.email));
+            dispatch(authSuccess("ff"));
+               
+           })
+    .catch(function(error) {
+  // Handle Errors here.e
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  if (errorCode === 'auth/wrong-password') {
+    alert('Wrong password.');
+  } else {
+    alert(errorMessage);
+  }
+  console.log(error);
+});
+    
+}
+}
+}
+
+
+function _auth(email, password, isRegistration) {
     return async dispatch => {
         const authData = {
             email, password,
