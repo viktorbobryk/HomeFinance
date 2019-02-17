@@ -1,5 +1,5 @@
 import axios from '../../axios/axios';
-import {SAVE_USER, SAVE_USER_DATA, EARNINGS} from './actionTypes';
+import {SAVE_USER, SAVE_USER_DATA, EARNINGS, SORTED_DATA} from './actionTypes';
 import {loading} from '../actions/auth';
 
 export function fetchUsers(){
@@ -45,5 +45,11 @@ export function fetchUsersData() {
         catch(e){
             console.log(e);
         }
+    }
+}
+export function sortedData(data) {
+    return{
+        type: SORTED_DATA,
+        payload: data
     }
 }

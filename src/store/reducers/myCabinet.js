@@ -1,4 +1,4 @@
-import {SAVE_USER, SAVE_USER_DATA, EARNINGS} from '../actions/actionTypes';
+import {SAVE_USER, SAVE_USER_DATA, EARNINGS, SORTED_DATA} from '../actions/actionTypes';
 const initialState = {
     users: null,
     usersData: null,
@@ -7,7 +7,6 @@ const initialState = {
 
 
 export default function myCabinetReducer(state = initialState, action) {
-// console.log(action.payload);
     switch (action.type) {
         case SAVE_USER: return{
             ...state, users: action.payload
@@ -17,6 +16,9 @@ export default function myCabinetReducer(state = initialState, action) {
         };
         case EARNINGS: return{
             ...state, showEarnings: action.payload
+        };
+        case SORTED_DATA: return{
+            ...state, usersData: action.payload
         };
         default:
             return state

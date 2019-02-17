@@ -2,9 +2,11 @@ import React, {Component} from 'react';
 import classes from './Earnings.scss';
 import Loader from '../../components/UI/Loader/Loader';
 import Table from '../../components/UI/Table/Table';
-import {showEarnings, fetchUsersData} from "../../store/actions/myCabinet";
+import {showEarnings, fetchUsersData, sortedData} from "../../store/actions/myCabinet";
 import is from 'is_js';
 import {connect} from 'react-redux';
+import _ from 'lodash';
+import ReactPaginate from 'react-paginate';
 import axios from '../../axios/axios';
 import Button from  '../../components/UI/Button/Button';
 import Input from  '../../components/UI/Input/Input';
@@ -16,11 +18,13 @@ class Earnings extends Component {
     }
 
     state = {
-         isLoading: true,
+        isLoading: true,
         isFormValid: false,
-        earningSum: null,
-        earningDate: null,
+        earningSum: 0,
+        earningDate: new Date(),
         earningCategory: 'salary',
+        sortTo: 'asc',
+        sortField: 'earningDate',
         formControls: {
             sum: {
                 value: '',
@@ -52,8 +56,10 @@ class Earnings extends Component {
     addEarningHandler = async (event)=>{
         event.preventDefault();
         const state = {...this.state};
+        console.log(this.props.activeUser);
         const userData = {
-            user: state.user,
+            userId: 8,
+            user: this.props.activeUser,
             earningSum: state.earningSum,
             earningDate: state.earningDate,
             earningCategory: state.earningCategory
@@ -69,26 +75,19 @@ class Earnings extends Component {
         });
 
         await axios.post('/earnings.json', userData);
-        console.log('earningSum:', userData.earningSum);
-        console.log('earningSDate:', userData.earningDate);
-        console.log('earningCategory:', userData.earningCategory);
         this.setState({
             isFormValid: false,
-            earningSum: '',
-            earningDate: '',
-            earningCategory: '',
+            earningSum: 0,
+            earningDate: userData.earningDate,
+            earningCategory: 'salary',
         });
     };
     submitHandler = (event)=>{
         event.preventDefault();
-        this.setState({
-            isFormValid: false,
-            earningSum: '',
-            earningDate: '',
-            earningCategory: '',
-        });
     };
-    validateControl(value, validation) {
+    validateControl= (value, validation)=> {
+        console.log(is.truthy(0));
+
         if (!validation) {
             return true
         }
@@ -100,20 +99,15 @@ class Earnings extends Component {
         }
 
         if (validation.number) {
-            isValid = is.existy(value) && isValid
+            isValid = is.truthy(+value) && isValid
         }
         if (validation.date) {
-            isValid = is.existy(value) && isValid
-        }
-
-        if (validation.minLength) {
-            isValid = value.length >= validation.minLength && isValid
+            isValid = is.truthy(value) && isValid
         }
 
         return isValid
-    }
+    };
     onChangeHandler = (event, controlName) => {
-
             const formControls = { ...this.state.formControls };
             const control = { ...formControls[controlName] };
             let userInput = event.target.value;
@@ -135,7 +129,7 @@ class Earnings extends Component {
                 this.setState({
                     formControls: formControls,
                     isFormValid: isFormValid,
-                    earningSum: +userInput,
+                    earningSum: userInput,
                     user: this.props.activeUser
                 })
             }
@@ -143,7 +137,7 @@ class Earnings extends Component {
                 this.setState({
                     formControls: formControls,
                     isFormValid: isFormValid,
-                    earningDate: new Date(userInput),
+                    earningDate: userInput,
                     user: this.props.activeUser
                 })
             }
@@ -158,7 +152,7 @@ class Earnings extends Component {
         this.props.showEarnings(val);
         this.props.fetchUsersData()
     };
-    renderInputs() {
+    renderInputs = ()=> {
         return Object.keys(this.state.formControls).map((controlName, index) => {
             const control = this.state.formControls[controlName];
             return (
@@ -175,11 +169,24 @@ class Earnings extends Component {
                 />
             )
         })
-    }
+    };
+    onSort = (sortField)=>{
+        const data = this.props.data;
+        const sortType = this.state.sortTo === 'asc' ? 'desc' : 'asc';
+        const orderedData = _.orderBy(data, sortField, sortType);
+
+        this.props.sortedData(orderedData);
+        this.setState({
+            sortTo: sortType,
+            sortField: sortField
+        })
+    };
   render() {
+      const tableSize = 20;
       const select = <Select
           label="Choose category"
           value={this.state.earningCategory}
+          required="required"
           onChange={this.selectChangeHandler}
           options={[
               {text: 'salary', value: 'salary'},
@@ -208,7 +215,12 @@ class Earnings extends Component {
           </form>
       }
       if(this.props.earnings){
-          formContent = <Table data={this.props.data}/>
+          formContent = <Table
+              data={this.props.data}
+              onSort={this.onSort}
+              sort={this.state.sortTo}
+              sortField={this.state.sortField}
+          />
       }
     return (
       <div className={classes.Earnings}>
@@ -232,6 +244,23 @@ class Earnings extends Component {
                   :
                   formContent
           }
+          {/*{*/}
+              {/*this.props.data.length > tableSize*/}
+              {/*?  <ReactPaginate*/}
+                  {/*previousLabel={'previous'}*/}
+                  {/*nextLabel={'next'}*/}
+                  {/*breakLabel={'...'}*/}
+                  {/*breakClassName={'break-me'}*/}
+                  {/*pageCount={this.state.pageCount}*/}
+                  {/*marginPagesDisplayed={2}*/}
+                  {/*pageRangeDisplayed={5}*/}
+                  {/*onPageChange={this.handlePageClick}*/}
+                  {/*containerClassName={'pagination'}*/}
+                  {/*subContainerClassName={'pages pagination'}*/}
+                  {/*activeClassName={'active'}*/}
+               {/*/>*/}
+               {/*: null*/}
+          {/*}*/}
       </div>
     );
   }
@@ -248,7 +277,8 @@ class Earnings extends Component {
 function mapDispatchToProps(dispatch){
     return{
         showEarnings: (val)=> dispatch(showEarnings(val)),
-        fetchUsersData: ()=> dispatch(fetchUsersData())
+        fetchUsersData: ()=> dispatch(fetchUsersData()),
+        sortedData: (data)=> dispatch(sortedData(data))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Earnings);

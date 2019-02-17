@@ -10,7 +10,7 @@ const Select = (props) => {
                 id={htmlFor}
                 value={props.value}
                 onChange={props.onChange}
-                required
+                required={props.required}
             >
                 {props.options.map((option, index)=>{
                     return(
