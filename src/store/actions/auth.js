@@ -1,84 +1,53 @@
-import axios from 'axios'
 import {AUTH_LOGOUT, AUTH_SUCCESS, ACTIVE_USER, LOADING} from './actionTypes';
 import {firebaseRef} from '../../config/firebase';
 
-export function auth(email, password, isRegistration){
+export function registration(email, password){
     return async dispatch => {
-        if(isRegistration){
-   firebaseRef.auth().createUserWithEmailAndPassword(email, password)
-    .catch(function(error) {
-  // Handle Errors here.
-  var errorCode = error.code;
-  var errorMessage = error.message;
-  if (errorCode === 'auth/weak-password') {
-    alert('The password is too weak.');
-  } else {
-    alert(errorMessage);
-  }
-  console.log(error);
-});
-    
-}
-else{
-    
-   firebaseRef.auth().signInWithEmailAndPassword(email, password).then(
-           function(userCred){
-               console.log(firebaseRef.auth().currentUser);
-            dispatch(activeUser(firebaseRef.auth().currentUser.email));
-            dispatch(authSuccess("ff"));
-               
-           })
-    .catch(function(error) {
-  // Handle Errors here.e
-  var errorCode = error.code;
-  var errorMessage = error.message;
-  if (errorCode === 'auth/wrong-password') {
-    alert('Wrong password.');
-  } else {
-    alert(errorMessage);
-  }
-  console.log(error);
-});
-    
-}
-}
-}
-
-
-function _auth(email, password, isRegistration) {
-    return async dispatch => {
-        const authData = {
-            email, password,
-            returnSecureToken: true
-        };
-
-        let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyAmPD6vG0-Moyw2c61U9IcaV54OLzAF4oo';
-
-        if (isRegistration) {
-            url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyAmPD6vG0-Moyw2c61U9IcaV54OLzAF4oo';
-        }
-
         try{
-            const response = await axios.post(url, authData);
-            const data = response.data;
-            const expirationDate = new Date(new Date().getTime() + data.expiresIn * 1000);
-            localStorage.setItem('token', data.idToken);
-            localStorage.setItem('userId', data.localId);
-            localStorage.setItem('expirationDate', expirationDate);
-
-            dispatch(activeUser(email));
-            dispatch(authSuccess(data.idToken));
-            dispatch(autoLogout(data.expiresIn));
-            if(isRegistration){
-                dispatch(createUser(authData.email, authData.password))
-            }
+            await firebaseRef.auth().createUserWithEmailAndPassword(email, password);
+            dispatch(authSuccess());
+            dispatch(activeUser(firebaseRef.auth().currentUser.email));
+            // alert(' created new user ' + email);
         }
-        catch(e){
-            console.log(e);
-            alert('user with such mail is already registered')
+        catch(error){
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          if (errorCode === 'auth/weak-password') {
+            alert('The password is too weak.');
+          } else {
+            alert(errorMessage);
+          }
+          console.log(error);
         }
+  }
+}
 
+export function login(email, password){
+    return dispatch => {
+        firebaseRef.auth().signInWithEmailAndPassword(email, password).then(
+            function(){
+                const expiresIn = 3600;
+                const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
 
+                localStorage.setItem('userEmail', email);
+                localStorage.setItem('userPassword', password);
+                localStorage.setItem('expirationDate', expirationDate);
+
+                dispatch(activeUser(firebaseRef.auth().currentUser.email));
+                dispatch(authSuccess());
+                dispatch(autoLogout(expiresIn));
+
+            })
+            .catch(function(error) {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                if (errorCode === 'auth/wrong-password') {
+                    alert('Wrong password.');
+                } else {
+                    alert(errorMessage);
+                }
+                console.log(error);
+            });
     }
 }
 
@@ -96,22 +65,6 @@ export function activeUser(email){
     }
 }
 
-export function createUser(email, password) {
-    const user = {
-        name: email,
-        password: password
-    };
-    return async () => {
-        try{
-            await axios.post('https://homefinance-4beab.firebaseio.com//users.json', user);
-            alert('created new user ' + user.name)
-        }
-        catch(e){
-            console.log(e);
-        }
-
-    }
-}
 export function autoLogout(time) {
 
     return dispatch => {
@@ -122,37 +75,36 @@ export function autoLogout(time) {
 }
 
 export function logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('expirationDate');
-    localStorage.removeItem('activeUser');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userPassword');
     return {
         type: AUTH_LOGOUT
     }
 }
 
-
 export function autoLogin() {
     return dispatch => {
-        const token = localStorage.getItem('token');
-        if (!token) {
+        const userEmail = localStorage.getItem('userEmail');
+        const userPassword = localStorage.getItem('userPassword');
+        if (!userEmail || !userPassword) {
             dispatch(logout())
-        } else {
+        }
+        else {
             const expirationDate = new Date(localStorage.getItem('expirationDate'));
             if (expirationDate <= new Date()) {
                 dispatch(logout())
-            } else {
-                dispatch(authSuccess(token));
-                dispatch(autoLogout((expirationDate.getTime() - new Date().getTime()) / 1000))
             }
-        }
+            else {
+                dispatch(authSuccess());
+                dispatch(autoLogout((expirationDate.getTime() - new Date().getTime()) / 1000))
+              }
+         }
     }
 }
 
-export function authSuccess(token) {
+export function authSuccess() {
     return {
-        type: AUTH_SUCCESS,
-        token
+        type: AUTH_SUCCESS
     }
 }
 export function loading(val) {

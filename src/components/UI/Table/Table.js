@@ -5,7 +5,6 @@ const Table = (props) => {
     if((props.data === undefined || props.data === null)){
         return <h2>you have not added any earnings yet</h2>;
     }
-    console.log(typeof(props.sortField));
   return (
       <table className={classes.table}>
           <thead>

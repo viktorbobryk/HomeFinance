@@ -52,7 +52,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
     return {
-        isAuthenticated: !!state.auth.token
+        isAuthenticated: state.auth.registered
     }
 }
 

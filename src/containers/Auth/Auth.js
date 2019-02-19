@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import classes from './Auth.scss';
 import Button from  '../../components/UI/Button/Button';
 import Input from  '../../components/UI/Input/Input';
-import {auth} from '../../store/actions/auth'
+import {registration, login} from '../../store/actions/auth'
 
 class Auth extends Component {
     state = {
@@ -53,18 +53,16 @@ class Auth extends Component {
     };
 
     loginHandler = () => {
-        this.props.auth(
+        this.props.login(
             this.state.formControls.email.value,
             this.state.formControls.password.value,
-            false
         )
     };
 
     registerHandler = () => {
-        this.props.auth(
+        this.props.registration(
             this.state.formControls.email.value,
             this.state.formControls.password.value,
-            true
         )
 
     };
@@ -180,7 +178,8 @@ class Auth extends Component {
 
 function mapDispatchToProps(dispatch) {
     return {
-        auth: (email, password, isRegistration) => dispatch(auth(email, password, isRegistration))
+        registration: (email, password) => dispatch(registration(email, password)),
+        login: (email, password) => dispatch(login(email, password))
     }
 }
 

@@ -18,7 +18,7 @@ class Header extends Component {
 
 
         ];
-        if(this.props.isAuthenticated){
+        if(this.props.registered){
             links = [
                 {to: '/', label: 'Home', exact: true, className: `${left}`},
                 {to: '/about-us', label: 'About Us', exact: false, className: `${left}`},
@@ -62,7 +62,7 @@ class Header extends Component {
 function mapStateToProps(state) {
 
     return {
-        isAuthenticated: !!state.auth.token
+        registered: state.auth.registered
 
     }
 }

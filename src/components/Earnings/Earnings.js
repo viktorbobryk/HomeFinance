@@ -6,7 +6,7 @@ import {showEarnings, fetchUsersData, sortedData} from "../../store/actions/myCa
 import is from 'is_js';
 import {connect} from 'react-redux';
 import _ from 'lodash';
-import ReactPaginate from 'react-paginate';
+// import ReactPaginate from 'react-paginate';
 import axios from '../../axios/axios';
 import Button from  '../../components/UI/Button/Button';
 import Input from  '../../components/UI/Input/Input';
@@ -182,7 +182,7 @@ class Earnings extends Component {
         })
     };
   render() {
-      const tableSize = 20;
+      // const tableSize = 20;
       const select = <Select
           label="Choose category"
           value={this.state.earningCategory}
