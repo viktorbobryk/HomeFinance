@@ -54,10 +54,8 @@ class Earnings extends Component {
 
 
     addEarningHandler = async (event)=>{
-        console.log('addEarningHandler', event);
         event.preventDefault();
         const state = {...this.state};
-        console.log(this.props.activeUser);
         const userData = {
             userId: 8,
             user: this.props.activeUser,
@@ -207,27 +205,13 @@ class Earnings extends Component {
 
       if(!this.props.earnings){
           formContent = <UserForm
-              onSubmit={()=>this.submitHandler}
+              submitHandler={this.submitHandler}
               renderInputs={()=>this.renderInputs()}
               select={select}
               type="primary"
-              onClick={()=>this.addEarningHandler}
+              addEarningHandler={this.addEarningHandler}
               disabled={!this.state.isFormValid}
           />
-          // formContent = <form onSubmit={this.submitHandler}>
-          //
-          //     { this.renderInputs() }
-          //
-          //     { select }
-          //
-          //     <Button
-          //         type="primary"
-          //         onClick={this.addEarningHandler}
-          //         disabled={!this.state.isFormValid}
-          //     >
-          //         Add earning
-          //     </Button>
-          // </form>
       }
       if(this.props.earnings){
           // const displayData = _.chunk(this.props.data, tableSize)[0];

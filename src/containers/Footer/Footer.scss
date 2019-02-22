@@ -1,7 +1,7 @@
 @import '../../styles/colors';
 .Footer{
   background: $lightGrey;
-  padding: 0 0 30px;
+  padding: 0 0 40px;
   text-align: center;
   ul{
     display: flex;
@@ -11,7 +11,7 @@
     justify-content: center;
     li {
       list-style: none;
-      padding: 10px;
+      padding: 12px;
       border-left: 1px solid $white;
       a{
         text-decoration: none;

@@ -2,12 +2,8 @@ import React from 'react';
 import Button from '../Button/Button';
 
 const UserForm = (props) => {
-    // const submittHandler = (event)=>{
-    //     props.dispatch(props.submitHandler);
-    //     event.preventDefault();
-    // };
   return (
-      <form onSubmit={props.submittHandler}>
+      <form onSubmit={props.submitHandler}>
 
           { props.renderInputs() }
 
@@ -16,7 +12,7 @@ const UserForm = (props) => {
           <Button
               type={props.type}
               onClick={props.addEarningHandler}
-              disabled={props.isFormValid}
+              disabled={props.disabled}
           >
               Add earning
           </Button>

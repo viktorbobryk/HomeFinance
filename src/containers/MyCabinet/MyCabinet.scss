@@ -1,13 +1,13 @@
 @import '../../styles/colors';
 .Mycabinet {
   background: $background;
-  padding: 10px;
+  padding: 40px  20px;
   overflow: hidden;
   .userInfo{
   background-color: $grey;
   border: 2px solid $white;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
   color: $white;
   line-height: 2;
     span{

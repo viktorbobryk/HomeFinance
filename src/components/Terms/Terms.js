@@ -67,19 +67,6 @@ const Terms = () => {
         <p><strong>5. Intuit Offers and Third-Party Links</strong></p>
 
         <p>Some parts of the Services are supported by sponsored links from advertisers. The Services may display Intuit Offers that may be custom matched to you based on information stored in the Services, queries made through the Services or other information. We may disclose when a particular Intuit Offer is sponsored or otherwise provided by a third party.</p>
-
-
-        <p><strong>6. Your Registration Information and Electronic Communications</strong></p>
-
-        <p>In order to allow you to use the Services, you will need to sign up for an account with Intuit. We may verify your identity. You authorize us to make any inquiries we consider necessary to validate your identity. These inquiries may include asking you for further information, requiring you to provide your full address, your date of birth, your social security number and/or requiring you to take steps to confirm ownership of your email address or financial instruments, ordering a credit report, or verifying information you provide against third party databases or through other sources. If you do not provide this information or Intuit cannot verify your identity, we can refuse to allow you to use the Services.</p>
-
-        <p>You agree and understand that you are responsible for maintaining the confidentiality of your password which, together with your LoginID e-mail address, allows you to access the Sites. That LoginID and password, together with any mobile number or other information you provide form your “Registration Information.” By providing us with your e-mail address, you consent to receive all required notices and information. Electronic communications may be posted on the Services site and/or delivered to your e-mail address that we have on file for you. It is your responsibility to promptly update us with your complete, accurate contact information, or change your information, including email address, as appropriate. Notices will be provided in HTML (or, if your system does not support HTML, in plain-text) in the text of the e-mail or through a link to the appropriate page on our site, accessible through any standard, commercially available internet browser. Your consent to receive communications electronically is valid until you end your relationship with us.</p>
-
-        <p>You may print a copy of any electronic communications and retain it for your records. We reserve the right to terminate or change how we provide electronic communications and will provide you with appropriate notice in accordance with applicable law.</p>
-
-        <p>If you believe that your Registration or Account Information or device that you use to access the Services has been lost or stolen, that someone is using your account without your permission, or that an Unauthorized Transfer (as defined in Section 25.1 Bill Payment Services below) has occurred, you must notify us immediately in order to minimize your possible losses.</p>
-
-
     </div>
   );
 };
