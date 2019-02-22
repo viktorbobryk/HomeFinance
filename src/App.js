@@ -8,6 +8,9 @@ import AboutUs from './containers/AboutUs/AboutUs'
 import Login from './containers/Login/Login'
 import Blog from './containers/Blog/Blog'
 import Logout from './containers/Logout/Logout'
+import FAQ from './components/FAQ/FAQ'
+import Privacy from './components/Privacy/Privacy'
+import Terms from './components/Terms/Terms'
 import Registration from './containers/Registration/Registration'
 import './App.scss';
 import {autoLogin} from './store/actions/auth';
@@ -26,6 +29,9 @@ class App extends Component {
                 <Route path='/blog' component={Blog}/>
                 <Route path='/login' component={Login}/>
                 <Route path='/registration' component={Registration}/>
+                <Route path='/faq' component={FAQ}/>
+                <Route path='/privacy' component={Privacy}/>
+                <Route path='/terms' component={Terms}/>
                 <Redirect to="/" />
             </Switch>
         );
@@ -37,6 +43,9 @@ class App extends Component {
                     <Route path='/blog' component={Blog}/>
                     <Route path='/my-cabinet' component={MyCabinet}/>
                     <Route path='/logout' component={Logout}/>
+                    <Route path='/faq' component={FAQ}/>
+                    <Route path='/privacy' component={Privacy}/>
+                    <Route path='/terms' component={Terms}/>
                     <Redirect to="/my-cabinet" />
                 </Switch>
             );

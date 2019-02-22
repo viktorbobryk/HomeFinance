@@ -1,33 +1,25 @@
 @import '../../styles/colors';
 .Header{
   background: $lightGrey;
-  //.left{
-  //  float: left;
-  //}
-  //.right{
-  //  border: none;
-  //  float: right;
-  //}
+
   h1{
     text-align: center;
     margin-top: 0;
   }
   nav {
+    display: flex;
+    background-color: #979797;
+    justify-content: space-between;
     ul {
-      background-color: $grey;
+      display: flex;
+      justify-content: space-between;
       list-style-type: none;
       margin: 0;
       padding: 0;
-      overflow: hidden;
       li {
-        border-right: 1px solid $lightGrey;
-        &.left{
-          float: left;        }
-        &.right{
-          float: right;
-        }
-        &:last-child{
-          border-left: 1px solid $lightGrey;
+        border-right: 1px solid $white;
+        &:first-child{
+          border-left: 1px solid $white;
         }
         a{
           display: block;

@@ -65,7 +65,7 @@ const resolveModule = (resolveFn, filePath) => {
   return resolveFn(`${filePath}.js`);
 };
 
-// config after eject: we're in ./config/
+// firebase after eject: we're in ./firebase/
 module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),

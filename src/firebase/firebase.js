@@ -11,9 +11,9 @@ import 'firebase/auth';
   authDomain: "homefinance-4beab.firebaseapp.com",
   databaseURL: "https://homefinance-4beab.firebaseio.com" 
 };
-firebase.initializeApp(config);
+const firebaseRef = firebase.initializeApp(config);
 
-export const firebaseRef = firebase;
+export default firebaseRef;
 
 
  

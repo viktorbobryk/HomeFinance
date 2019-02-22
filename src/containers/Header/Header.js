@@ -6,35 +6,49 @@ import {connect} from 'react-redux'
 
 class Header extends Component {
     render() {
-        const left = classes.left;
-        const right = classes.right;
-
-        let links = [
-            {to: '/', label: 'Home', exact: true, className: `${left}`},
-            {to: '/about-us', label: 'About Us', exact: false, className: `${left}`},
-            {to: '/blog', label: 'Blog', exact: false, className: `${left}`},
-            {to: '/registration', label: 'Signup', exact: false, className: `${right}`},
-            {to: '/login', label: 'Login', exact: false, className: `${right}`},
-
-
+        let linksLeft = [
+            {to: '/', label: 'Home', exact: true},
+            {to: '/about-us', label: 'About Us', exact: false},
+            {to: '/blog', label: 'Blog', exact: false}
+        ];
+        let linksRight = [
+            {to: '/login', label: 'Login', exact: false},
+            {to: '/registration', label: 'Signup', exact: false}
         ];
         if(this.props.registered){
-            links = [
-                {to: '/', label: 'Home', exact: true, className: `${left}`},
-                {to: '/about-us', label: 'About Us', exact: false, className: `${left}`},
-                {to: '/blog', label: 'Blog', exact: false, className: `${left}`},
-                {to: '/my-cabinet', label: 'My cabinet', exact: false, className: `${left}`},
-                {to: '/logout', label: 'Logout', exact: false, className: `${right}`}
+            linksLeft = [
+                {to: '/', label: 'Home', exact: true},
+                {to: '/about-us', label: 'About Us', exact: false},
+                {to: '/blog', label: 'Blog', exact: false},
+                {to: '/my-cabinet', label: 'My cabinet', exact: false},
+            ];
+            linksRight = [
+                {to: '/logout', label: 'Logout', exact: false}
             ];
         }
-        let renderLinks=()=>{
-            return links.map((link, index)=>{
+        let renderLinksLeft=()=>{
+            return linksLeft.map((link, index)=>{
                 return(
-                    <li key={index} className={link.className}>
+                    <li key={index}>
                         <NavLink
                             to={link.to}
                             exact={link.exact}
-                            className={links.className}
+                            activeClassName={classes.active}
+                            onClick={this.clickHandler}
+                        >
+                            {link.label}
+                        </NavLink>
+                    </li>
+                )
+            })
+        };
+        let renderLinksRight=()=>{
+            return linksRight.map((link, index)=>{
+                return(
+                    <li key={index}>
+                        <NavLink
+                            to={link.to}
+                            exact={link.exact}
                             activeClassName={classes.active}
                             onClick={this.clickHandler}
                         >
@@ -50,7 +64,10 @@ class Header extends Component {
                     <h1>Home Finance</h1>
                     <nav>
                         <ul>
-                            {renderLinks()}
+                            {renderLinksLeft()}
+                        </ul>
+                        <ul>
+                            {renderLinksRight()}
                         </ul>
                     </nav>
                 </div>

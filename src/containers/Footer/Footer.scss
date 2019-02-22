@@ -1,6 +1,29 @@
 @import '../../styles/colors';
 .Footer{
   background: $lightGrey;
-  padding: 30px;
+  padding: 0 0 30px;
   text-align: center;
+  ul{
+    display: flex;
+    background-color: $grey;
+    margin-top: 0;
+    padding: 0;
+    justify-content: center;
+    li {
+      list-style: none;
+      padding: 10px;
+      border-left: 1px solid $white;
+      a{
+        text-decoration: none;
+        font-size: 18px;
+        color: $white;
+      }
+      &:last-child{
+        border-right: 1px solid $white;
+      }
+      &:hover{
+        background-color: $darkGrey;
+      }
+    }
+  }
 }

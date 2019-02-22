@@ -2,20 +2,18 @@ import React, {Component} from 'react';
 import classes from './Earnings.scss';
 import Loader from '../../components/UI/Loader/Loader';
 import Table from '../../components/UI/Table/Table';
+import UserForm from '../../components/UI/UserForm/UserForm';
 import {showEarnings, fetchUsersData, sortedData} from "../../store/actions/myCabinet";
 import is from 'is_js';
 import {connect} from 'react-redux';
 import _ from 'lodash';
-// import ReactPaginate from 'react-paginate';
+import Pagination from '../../components/UI/Pagination/Pagination';
 import axios from '../../axios/axios';
-import Button from  '../../components/UI/Button/Button';
-import Input from  '../../components/UI/Input/Input';
+import Button from '../../components/UI/Button/Button';
+import Input from '../../components/UI/Input/Input';
 import Select from '../../components/UI/Select/Select'
 
 class Earnings extends Component {
-     componentDidMount(){
-        this.props.fetchUsersData();
-    }
 
     state = {
         isLoading: true,
@@ -25,6 +23,7 @@ class Earnings extends Component {
         earningCategory: 'salary',
         sortTo: 'asc',
         sortField: 'earningDate',
+        currentPage: 0,
         formControls: {
             sum: {
                 value: '',
@@ -53,7 +52,9 @@ class Earnings extends Component {
         }
     };
 
+
     addEarningHandler = async (event)=>{
+        console.log('addEarningHandler', event);
         event.preventDefault();
         const state = {...this.state};
         console.log(this.props.activeUser);
@@ -83,10 +84,10 @@ class Earnings extends Component {
         });
     };
     submitHandler = (event)=>{
+        console.log('submitHandler', event);
         event.preventDefault();
     };
     validateControl= (value, validation)=> {
-        console.log(is.truthy(0));
 
         if (!validation) {
             return true
@@ -181,8 +182,14 @@ class Earnings extends Component {
             sortField: sortField
         })
     };
+    pageChangeHandler = (selected)=>{
+        console.log(selected);
+        this.setState({
+            currentPage: selected
+        })
+    };
   render() {
-      // const tableSize = 20;
+      const tableSize = 5;
       const select = <Select
           label="Choose category"
           value={this.state.earningCategory}
@@ -199,29 +206,40 @@ class Earnings extends Component {
       let formContent;
 
       if(!this.props.earnings){
-          formContent = <form onSubmit={this.submitHandler}>
-
-              { this.renderInputs() }
-
-              { select }
-
-              <Button
-                  type="primary"
-                  onClick={this.addEarningHandler}
-                  disabled={!this.state.isFormValid}
-              >
-                  Add earning
-              </Button>
-          </form>
+          formContent = <UserForm
+              onSubmit={()=>this.submitHandler}
+              renderInputs={()=>this.renderInputs()}
+              select={select}
+              type="primary"
+              onClick={()=>this.addEarningHandler}
+              disabled={!this.state.isFormValid}
+          />
+          // formContent = <form onSubmit={this.submitHandler}>
+          //
+          //     { this.renderInputs() }
+          //
+          //     { select }
+          //
+          //     <Button
+          //         type="primary"
+          //         onClick={this.addEarningHandler}
+          //         disabled={!this.state.isFormValid}
+          //     >
+          //         Add earning
+          //     </Button>
+          // </form>
       }
       if(this.props.earnings){
-          formContent = <Table
-              data={this.props.data}
-              onSort={this.onSort}
-              sort={this.state.sortTo}
-              sortField={this.state.sortField}
-          />
+          // const displayData = _.chunk(this.props.data, tableSize)[0];
+          formContent =
+              <Table
+                  data={this.props.data}
+                  onSort={this.onSort}
+                  sort={this.state.sortTo}
+                  sortField={this.state.sortField}
+              />
       }
+
     return (
       <div className={classes.Earnings}>
           <div className={classes.earningsHeader}>
@@ -244,23 +262,14 @@ class Earnings extends Component {
                   :
                   formContent
           }
-          {/*{*/}
-              {/*this.props.data.length > tableSize*/}
-              {/*?  <ReactPaginate*/}
-                  {/*previousLabel={'previous'}*/}
-                  {/*nextLabel={'next'}*/}
-                  {/*breakLabel={'...'}*/}
-                  {/*breakClassName={'break-me'}*/}
-                  {/*pageCount={this.state.pageCount}*/}
-                  {/*marginPagesDisplayed={2}*/}
-                  {/*pageRangeDisplayed={5}*/}
-                  {/*onPageChange={this.handlePageClick}*/}
-                  {/*containerClassName={'pagination'}*/}
-                  {/*subContainerClassName={'pages pagination'}*/}
-                  {/*activeClassName={'active'}*/}
-               {/*/>*/}
-               {/*: null*/}
-          {/*}*/}
+          {
+              (this.props.earnings)
+              ?
+                  <Pagination
+                      onPageChange={this.pageChangeHandler}
+                  />
+          : null
+          }
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import {AUTH_LOGOUT, AUTH_SUCCESS, ACTIVE_USER, LOADING} from './actionTypes';
-import {firebaseRef} from '../../config/firebase';
+import firebaseRef from '../../firebase/firebase';
 
 export function registration(email, password){
     return async dispatch => {
@@ -7,7 +7,6 @@ export function registration(email, password){
             await firebaseRef.auth().createUserWithEmailAndPassword(email, password);
             dispatch(authSuccess());
             dispatch(activeUser(firebaseRef.auth().currentUser.email));
-            // alert(' created new user ' + email);
         }
         catch(error){
           const errorCode = error.code;
@@ -23,22 +22,21 @@ export function registration(email, password){
 }
 
 export function login(email, password){
-    return dispatch => {
-        firebaseRef.auth().signInWithEmailAndPassword(email, password).then(
-            function(){
-                const expiresIn = 3600;
-                const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+    return async dispatch => {
+        try{
+            await firebaseRef.auth().signInWithEmailAndPassword(email, password);
+            const expiresIn = 3600;
+            const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
 
-                localStorage.setItem('userEmail', email);
-                localStorage.setItem('userPassword', password);
-                localStorage.setItem('expirationDate', expirationDate);
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('userPassword', password);
+            localStorage.setItem('expirationDate', expirationDate);
 
-                dispatch(activeUser(firebaseRef.auth().currentUser.email));
-                dispatch(authSuccess());
-                dispatch(autoLogout(expiresIn));
-
-            })
-            .catch(function(error) {
+            dispatch(activeUser(firebaseRef.auth().currentUser.email));
+            dispatch(authSuccess());
+            dispatch(autoLogout(expiresIn));
+        }
+        catch(error) {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 if (errorCode === 'auth/wrong-password') {
@@ -47,7 +45,7 @@ export function login(email, password){
                     alert(errorMessage);
                 }
                 console.log(error);
-            });
+            }
     }
 }
 
