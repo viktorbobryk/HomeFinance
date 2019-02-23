@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './table.scss';
 
 const Table = (props) => {
-    // console.log(props.data);
+    // console.log('props.sort ->', props.sort);
     if((props.data === undefined || props.data === null)){
         return <h2>you have not added any earnings yet</h2>;
     }
@@ -15,13 +15,13 @@ const Table = (props) => {
                       id{props.sortField === 'index' ? <small>&nbsp;{props.sort}</small> : null}
                   </th>
                   <th onClick={()=>props.onSort('earningDate')}>
-                      Date{props.sortField === 'earningDate' ? <small>&nbsp;{props.sort}</small> : null}
+                      Date{props.sortField === 'earningDate' ? <small>&nbsp;{props.sort === 'asc' ? <span>&uarr;</span> : <span>&darr;</span>} </small> : null}
                   </th>
                   <th onClick={()=>props.onSort('earningSum')}>
-                      Sum{props.sortField === 'earningSum' ? <small>&nbsp;{props.sort}</small> : null}
+                      Sum{props.sortField === 'earningSum' ? <small>&nbsp;{props.sort === 'asc' ? <span>&uarr;</span> : <span>&darr;</span>}</small> : null}
                   </th>
                   <th onClick={()=>props.onSort('earningCategory')}>
-                      Category{props.sortField === 'earningCategory' ? <small>&nbsp;{props.sort}</small> : null}
+                      Category{props.sortField === 'earningCategory' ? <small>&nbsp;{props.sort === 'asc' ? <span>&uarr;</span> : <span>&darr;</span>}</small> : null}
                   </th>
               </tr>
               </thead>

@@ -14,14 +14,14 @@ const Pagination = (props) => {
              marginPagesDisplayed={2}
              pageRangeDisplayed={5}
              onPageChange={props.pageChangeHandler}
-             containerClassName={'pagination'}
-             activeClassName={'active'}
-             pageClassName={"page-item"}
-             pageLinkClassName={"page-link"}
-             previousClassName={"page-item"}
-             nextClassName={"page-item"}
-             previousLinkClassName={"page-link"}
-             nextLinkClassName={"page-link"}
+             containerClassName={classes.pagination}
+             activeClassName={classes.active}
+             pageClassName={classes.pageItem}
+             pageLinkClassName={classes.pageLink}
+             previousClassName={classes.pageItem}
+             nextClassName={classes.pageItem}
+             previousLinkClassName={classes.pageLink}
+             nextLinkClassName={classes.pageLink}
              forcePage={props.currentPage}
           />
       </div>

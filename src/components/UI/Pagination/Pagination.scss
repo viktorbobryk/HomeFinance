@@ -1,15 +1,15 @@
 @import '../../../styles/colors';
 .Pagination{
-  ul{
+  .pagination{
     display: flex;
     padding-left: 0;
     list-style: none;
     justify-content: center;
-    li{
+    .pageItem{
       position: relative;
       display: block;
       padding: 5px;
-      a{
+      .pageLink{
         position: relative;
         display: block;
         padding: 5px 10px;
@@ -30,6 +30,10 @@
         &:hover{
           cursor: pointer;
         }
+      }
+      .active{
+        background-color: $primary;
+        color: $white;
       }
   }
     }
