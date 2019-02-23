@@ -14,9 +14,11 @@ import Input from '../../components/UI/Input/Input';
 import Select from '../../components/UI/Select/Select'
 
 class Earnings extends Component {
+componentDidMount(){
 
+}
     state = {
-        isLoading: true,
+        isLoading: false,
         isFormValid: false,
         earningSum: 0,
         earningDate: new Date(),
@@ -72,14 +74,23 @@ class Earnings extends Component {
                 }
             });
         });
-
-        await axios.post('/earnings.json', userData);
         this.setState({
-            isFormValid: false,
-            earningSum: 0,
-            earningDate: userData.earningDate,
-            earningCategory: 'salary',
+            isLoading: true,
         });
+        try{
+            await axios.post('/earnings.json', userData);
+            this.setState({
+                isFormValid: false,
+                earningSum: 0,
+                earningDate: userData.earningDate,
+                earningCategory: 'salary',
+                isLoading: false,
+            });
+        }
+        catch(e){
+          console.log(e);
+        }
+
     };
     submitHandler = (event)=>{
         console.log('submitHandler', event);
@@ -180,14 +191,16 @@ class Earnings extends Component {
             sortField: sortField
         })
     };
-    pageChangeHandler = (selected)=>{
-        console.log(selected);
+    pageChangeHandler = (page)=>{
+        // console.log(page.selected);
         this.setState({
-            currentPage: selected
+            currentPage: page.selected
         })
     };
   render() {
-      const tableSize = 5;
+      const tableSize = 10;
+      let showPagination = this.props.data ? Object.values(this.props.data) :[];
+      const pageCount = Math.ceil(showPagination.length / tableSize);
       const select = <Select
           label="Choose category"
           value={this.state.earningCategory}
@@ -214,10 +227,10 @@ class Earnings extends Component {
           />
       }
       if(this.props.earnings){
-          // const displayData = _.chunk(this.props.data, tableSize)[0];
+          const displayData = _.chunk(showPagination, tableSize)[this.state.currentPage];
           formContent =
               <Table
-                  data={this.props.data}
+                  data={displayData}
                   onSort={this.onSort}
                   sort={this.state.sortTo}
                   sortField={this.state.sortField}
@@ -247,10 +260,12 @@ class Earnings extends Component {
                   formContent
           }
           {
-              (this.props.earnings)
+              (this.props.earnings && showPagination.length > tableSize)
               ?
                   <Pagination
-                      onPageChange={this.pageChangeHandler}
+                      pageChangeHandler={this.pageChangeHandler}
+                      currentPage={this.state.currentPage}
+                      pageCount={pageCount}
                   />
           : null
           }
