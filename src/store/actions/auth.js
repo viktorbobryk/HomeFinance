@@ -1,5 +1,6 @@
 import {AUTH_LOGOUT, AUTH_SUCCESS, ACTIVE_USER, LOADING} from './actionTypes';
 import firebaseRef from '../../firebase/firebase';
+import {showModal} from './modal'
 
 export function registration(email, password){
     return async dispatch => {
@@ -12,11 +13,14 @@ export function registration(email, password){
           const errorCode = error.code;
           const errorMessage = error.message;
           if (errorCode === 'auth/weak-password') {
-            alert('The password is too weak.');
+            // alert('The password is too weak.');
+              showModal('auth/weak-password');
           } else {
-            alert(errorMessage);
+            // alert(errorMessage);
+              showModal(errorMessage);
           }
           console.log(error);
+            showModal(error);
         }
   }
 }
@@ -35,16 +39,20 @@ export function login(email, password){
             dispatch(activeUser(firebaseRef.auth().currentUser.email));
             dispatch(authSuccess());
             dispatch(autoLogout(expiresIn));
+            dispatch(showModal('registration success'));
         }
         catch(error) {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 if (errorCode === 'auth/wrong-password') {
                     alert('Wrong password.');
+                    dispatch(showModal('Wrong password.'));
                 } else {
                     alert(errorMessage);
+                    dispatch(showModal('Wrong password2.'));
                 }
                 console.log(error);
+            dispatch(showModal('Wrong password3.'));
             }
     }
 }

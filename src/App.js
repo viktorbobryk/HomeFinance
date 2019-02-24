@@ -14,6 +14,7 @@ import Terms from './components/Terms/Terms'
 import Registration from './containers/Registration/Registration'
 import './App.scss';
 import {autoLogin} from './store/actions/auth';
+import ErrorBoundary from './containers/ErrorBoundary/ErrorBoundary'
 
 class App extends Component {
 
@@ -53,7 +54,9 @@ class App extends Component {
         }
     return (
         <Layout>
-            {routes}
+            <ErrorBoundary>
+                {routes}
+            </ErrorBoundary>
         </Layout>
     );
   }

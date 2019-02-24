@@ -3,13 +3,15 @@ import {connect} from 'react-redux';
 import {NavLink, withRouter} from 'react-router-dom'
 import {logout} from '../../store/actions/auth'
 import {fetchUsers, fetchUsersData} from "../../store/actions/myCabinet";
-import {activeUser} from "../../store/actions/auth"
+import {activeUser} from "../../store/actions/auth";
+import {closeModal} from '../../store/actions/modal'
 import classes from './MyCabinet.scss';
 import Earnings from '../Earnings/Earnings';
 import Salary from '../../components/Salary/Salary';
 import Spending from '../../components/Spending/Spending';
 import Charts from '../../components/Charts/Charts';
 import Others from '../../components/Others/Others';
+import Modal from '../../components/UI/Modal/Modal'
 
 const arr = [<Earnings/>, <Salary/>, <Spending/>, <Charts/>, <Others/>];
 
@@ -60,6 +62,10 @@ class MyCabinet extends Component {
       };
     return (
         <div className={classes.Mycabinet}>
+            <Modal
+                showModal={this.props.modal}
+                modalClosed={this.props.closeModal}
+            >{this.props.errorMessage}</Modal>
             <div className={classes.userInfo}>Manage your family budget with Home Finance &trade;<span>{this.props.activeUser}</span> <span><i className="fas fa-user-circle fa-2x"></i></span></div>
             <nav>
                 <ul>
@@ -74,18 +80,24 @@ class MyCabinet extends Component {
 }
 
 function mapStateToProps(state){
+    // console.log('modal->', state.modal.showModal);
+    // console.log('error->', state.modal.errorMessage);
     return{
         users: state.myCabinet.users,
         activeUser: state.auth.activeUser,
-        data: state.myCabinet.usersData
+        data: state.myCabinet.usersData,
+        modal: state.modal.showModal,
+        errorMessage: state.modal.errorMessage
     }
 }
+
 function mapDispatchToProps(dispatch){
   return{
     logout: ()=> dispatch(logout()),
-      fetchUsers:()=> dispatch(fetchUsers()),
-      fetchUsersData:()=> dispatch(fetchUsersData()),
-    getActiveUser: ()=> dispatch(activeUser())
+    fetchUsers:()=> dispatch(fetchUsers()),
+    fetchUsersData:()=> dispatch(fetchUsersData()),
+    getActiveUser: ()=> dispatch(activeUser()),
+    closeModal: ()=> dispatch(closeModal())
   }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MyCabinet));

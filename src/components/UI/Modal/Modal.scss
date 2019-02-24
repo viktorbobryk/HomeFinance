@@ -1,0 +1,40 @@
+@import '../../../styles/colors';
+.Modal {
+  position: fixed;
+  z-index: 500;
+  background-color: white;
+  width: 60%;
+  border: 2px solid $error;
+  box-shadow: 2px 2px 4px $black, -2px 0px 4px $black;
+  left: 15%;
+  top: 30%;
+  box-sizing: border-box;
+  transition: all 0.5s ease-out;
+  .modalHeader{
+    height: 40px;
+    background-color: $error;
+    .close {
+      padding-right: 15px;
+      color: white;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+  .modalMain{
+    background-image: url("./Images/Error-Image.jpg");
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: contain;
+    word-break: break-all;
+    min-height: 130px;
+    padding: 10px 228px 10px 10px;
+  }
+}
