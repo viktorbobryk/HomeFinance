@@ -1,28 +1,23 @@
 import React, {Component} from 'react';
-import {connect}from 'react-redux'
+import {connect}from 'react-redux';
 import Auth from '../Auth/Auth';
-import Modal from '../../components/UI/Modal/Modal'
-import {closeModal, showModal} from "../../store/actions/modal";
+import ModalError from '../../components/UI/ModalError/ModalError';
+import {closeModal} from "../../store/actions/modal";
 
 class Registration extends Component {
 
     state = {
 
     };
-    componentDidCatch(error, info) {
-        // You can also log the error to an error reporting service
-        this.props.showModal(error);
-    }
     render() {
         return (
             <React.Fragment>
-                <Modal
+                <ModalError
                     show={this.props.show}
                     closeModal={this.props.closeModal}
-                >{this.props.message}</Modal>
+                >{this.props.message}</ModalError>
                 <Auth
                     isLogin={false}/>
-                {/*<button onClick={()=>this.props.showModal('aaaaaaaaaaaaaaaqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')}>show modal</button>*/}
             </React.Fragment>
 
         );
@@ -38,7 +33,6 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return{
         closeModal: ()=> dispatch(closeModal()),
-        showModal: (message)=> dispatch(showModal(message))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps )(Registration);

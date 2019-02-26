@@ -1,0 +1,40 @@
+
+@import '../../../styles/colors';
+.ManageCategories{
+  border: 2px solid $primary;
+  background: $darkGrey;
+  position: absolute;
+  right: 0;
+  bottom: 5px;
+  padding: 10px;
+  height: 120px;
+  width: 180px;
+  color: $white;
+  transition: all 0.6s ease-out;
+  .toggleMC{
+    position: relative;
+    display: inline-block;
+    left: -125px;
+    bottom: -1;
+    line-height: 25px;
+    text-align: center;
+    width: 115px;
+    height: 25px;
+    background: $primary;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+  form{
+    width: 100%;
+    input{
+      width: 100%;
+      margin: 10px 0;
+      border: none;
+      padding: 7px 0;
+    }
+    button{
+      width: 100%;
+    }
+  }
+}

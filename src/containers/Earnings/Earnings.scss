@@ -1,5 +1,7 @@
 @import '../../styles/colors';
 .Earnings{
+  position: relative;
+  overflow: hidden;
   padding-bottom: 20px;
   .earningsHeader{
     background: $error;

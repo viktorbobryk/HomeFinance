@@ -11,7 +11,11 @@ import Pagination from '../../components/UI/Pagination/Pagination';
 import axios from '../../axios/axios';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
-import Select from '../../components/UI/Select/Select'
+import Select from '../../components/UI/Select/Select';
+import ModalError from '../../components/UI/ModalError/ModalError';
+import AddCategory from '../../components/UI/AddCategory/AddCategory';
+import DeleteCategory from '../../components/UI/DeleteCategory/DeleteCategory'
+import {closeModal, showModal} from "../../store/actions/modal";
 
 class Earnings extends Component {
 componentDidMount(){
@@ -26,6 +30,16 @@ componentDidMount(){
         sortTo: 'asc',
         sortField: 'earningDate',
         currentPage: 0,
+        showAddCategory: false,
+        showDeleteCategory: false,
+        categoryValue: '',
+        disabled: true,
+        selectOptions: [
+            {text: 'salary', value: 'salary'},
+            {text: 'pension', value: 'pension'},
+            {text: 'dividends', value: 'dividends'},
+            {text: 'bribe', value: 'bribe'}
+        ],
         formControls: {
             sum: {
                 value: '',
@@ -59,7 +73,6 @@ componentDidMount(){
         event.preventDefault();
         const state = {...this.state};
         const userData = {
-            userId: 8,
             user: this.props.activeUser,
             earningSum: state.earningSum,
             earningDate: state.earningDate,
@@ -87,13 +100,13 @@ componentDidMount(){
                 isLoading: false,
             });
         }
-        catch(e){
-          console.log(e);
+        catch(error){
+          console.log(error.message);
+          this.props.showModal(error.message)
         }
 
     };
     submitHandler = (event)=>{
-        console.log('submitHandler', event);
         event.preventDefault();
     };
     validateControl= (value, validation)=> {
@@ -192,9 +205,35 @@ componentDidMount(){
         })
     };
     pageChangeHandler = (page)=>{
-        // console.log(page.selected);
         this.setState({
             currentPage: page.selected
+        })
+    };
+    toggleAddCategoryHandler = ()=>{
+        this.setState({
+            showAddCategory: !this.state.showAddCategory
+        })
+    };
+    toggleDeleteCategoryHandler = ()=>{
+        this.setState({
+            showDeleteCategory: !this.state.showDeleteCategory
+        })
+    };
+    changeCategoryHandler = (event)=>{
+        console.log(event.target.value);
+        this.setState({
+            categoryValue: event.target.value,
+            disabled: false
+        })
+    };
+    addCategoryHandler = ()=>{
+        const categoryList = [... this.state.selectOptions];
+        const newCategory = {text: this.state.categoryValue, value: this.state.categoryValue};
+        categoryList.push(newCategory);
+        this.setState({
+            selectOptions: categoryList,
+            categoryValue: '',
+            disabled: true
         })
     };
   render() {
@@ -206,12 +245,7 @@ componentDidMount(){
           value={this.state.earningCategory}
           required="required"
           onChange={this.selectChangeHandler}
-          options={[
-              {text: 'salary', value: 'salary'},
-              {text: 'pension', value: 'pension'},
-              {text: 'dividends', value: 'dividends'},
-              {text: 'bribe', value: 'bribe'}
-          ]}
+          options={this.state.selectOptions}
       />;
 
       let formContent;
@@ -239,6 +273,25 @@ componentDidMount(){
 
     return (
       <div className={classes.Earnings}>
+          <AddCategory
+             show={this.state.showAddCategory}
+             toggleAddCategory={this.toggleAddCategoryHandler}
+             submit={this.submitHandler}
+             changeCategory={(event)=>this.changeCategoryHandler(event)}
+             addCategory={this.addCategoryHandler}
+             categoryValue={this.state.categoryValue}
+             disabled={this.state.disabled}
+          />
+          <DeleteCategory
+              show={this.state.showDeleteCategory}
+              deleteCategory={this.toggleDeleteCategoryHandler}
+              categories={this.state.selectOptions}
+              submit={this.submitHandler}
+          />
+          <ModalError
+              show={this.props.show}
+              closeModal={this.props.closeModal}
+          >{this.props.message}</ModalError>
           <div className={classes.earningsHeader}>
               <Button
                   type={!this.props.earnings ? "activeHeader" : 'header'}
@@ -278,7 +331,9 @@ componentDidMount(){
          activeUser: state.auth.activeUser,
          earnings: state.myCabinet.showEarnings,
          loading: state.auth.loading,
-         data: state.myCabinet.usersData
+         data: state.myCabinet.usersData,
+         show: state.modal.show,
+         message: state.modal.message
      }
  }
 
@@ -286,7 +341,10 @@ function mapDispatchToProps(dispatch){
     return{
         showEarnings: (val)=> dispatch(showEarnings(val)),
         fetchUsersData: ()=> dispatch(fetchUsersData()),
-        sortedData: (data)=> dispatch(sortedData(data))
+        sortedData: (data)=> dispatch(sortedData(data)),
+        closeModal: ()=> dispatch(closeModal()),
+        showModal: (error)=> dispatch(showModal(error))
     }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Earnings);

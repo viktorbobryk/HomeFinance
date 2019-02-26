@@ -1,4 +1,4 @@
-@import '../../../styles/colors';
+ @import '../../../styles/colors';
 .Button{
   display: inline-block;
   border: 1px solid $disabled;
@@ -26,7 +26,7 @@
 
 }
 .error{
-  background: $disabled;
+  background: $error;
 }
 .succsess{
   background: $success;

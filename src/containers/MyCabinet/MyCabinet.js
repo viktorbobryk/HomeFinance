@@ -11,7 +11,7 @@ import Salary from '../../components/Salary/Salary';
 import Spending from '../../components/Spending/Spending';
 import Charts from '../../components/Charts/Charts';
 import Others from '../../components/Others/Others';
-import Modal from '../../components/UI/Modal/Modal'
+import ModalError from '../../components/UI/ModalError/ModalError'
 
 const arr = [<Earnings/>, <Salary/>, <Spending/>, <Charts/>, <Others/>];
 
@@ -62,10 +62,10 @@ class MyCabinet extends Component {
       };
     return (
         <div className={classes.Mycabinet}>
-            <Modal
-                showModal={this.props.modal}
+            <ModalError
+                showModal={this.props.show}
                 modalClosed={this.props.closeModal}
-            >{this.props.errorMessage}</Modal>
+            >{this.props.message}</ModalError>
             <div className={classes.userInfo}>Manage your family budget with Home Finance &trade;<span>{this.props.activeUser}</span> <span><i className="fas fa-user-circle fa-2x"></i></span></div>
             <nav>
                 <ul>
@@ -80,14 +80,12 @@ class MyCabinet extends Component {
 }
 
 function mapStateToProps(state){
-    // console.log('modal->', state.modal.showModal);
-    // console.log('error->', state.modal.errorMessage);
     return{
         users: state.myCabinet.users,
         activeUser: state.auth.activeUser,
         data: state.myCabinet.usersData,
-        modal: state.modal.showModal,
-        errorMessage: state.modal.errorMessage
+        show: state.modal.show,
+        message: state.modal.message
     }
 }
 

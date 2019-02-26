@@ -4,7 +4,7 @@ const initialState = {
     message: ''
 };
 
-export default function authReducer(state = initialState, action) {
+export default function modaleducer(state = initialState, action) {
     // console.log('reducer modal message->', action.payload);
     switch (action.type) {
         case SHOW_MODAL: return{

@@ -1,18 +1,12 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {NavLink} from 'react-router-dom'
 import  classes from './Home.scss'
-import Modal from '../../components/UI/Modal/Modal'
-import {closeModal, showModal} from "../../store/actions/modal";
 
 class Home extends Component {
 
   state = {
 
   };
-componentDidMount(){
-    this.props.showModal('home');
-}
   render() {
       let links = [
           {to: '/registration', label: 'Signup', exact: false},
@@ -37,10 +31,6 @@ componentDidMount(){
       };
     return (
         <div className={classes.Home}>
-            <Modal
-                show={this.props.show}
-                closeModal={this.props.closeModal}
-            >{this.props.message}</Modal>
             <div className={classes.header}>
                 <h2>HIt’s all coming together</h2>
                 <p>When you’re on top of your money, life is good.<br/>
@@ -124,18 +114,4 @@ componentDidMount(){
   }
 }
 
-function mapStateToProps(state){
-    return {
-        loading: state.auth.loading,
-        show: state.modal.show,
-        message: state.modal.message
-    }
-}
-function mapDispatchToProps(dispatch){
-    return{
-        closeModal: ()=> dispatch(closeModal()),
-        showModal: (message)=> dispatch(showModal(message))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;
