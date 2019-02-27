@@ -2,9 +2,8 @@ import {SAVE_USER, SAVE_USER_DATA, EARNINGS, SORTED_DATA} from '../actions/actio
 const initialState = {
     users: null,
     usersData: null,
-    showEarnings: false
+    showEarnings: false,
 };
-
 
 export default function myCabinetReducer(state = initialState, action) {
     switch (action.type) {

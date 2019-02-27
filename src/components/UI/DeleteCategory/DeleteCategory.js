@@ -3,9 +3,10 @@ import classes from './DeleteCategory.scss';
 import Button from '../../../components/UI/Button/Button'
 
 const DeleteCategory= (props) => {
+    // console.log(props.categories);
     const list = props.categories.map((category, index)=>{
        return(
-           <li key={index}>{category.value}{<Button type='error'>delete</Button>}</li>
+           <li key={index}>{category.value}{<Button type='error' onClick={(e)=>props.deleteCategory(index)}>delete</Button>}</li>
        )
     });
     return (
@@ -16,9 +17,8 @@ const DeleteCategory= (props) => {
             <h3>Choose category</h3>
             <ul>
                 {list}
-                {list}
             </ul>
-            <span  onClick={()=>props.deleteCategory()} className={classes.toggleMC}>{props.show ? 'hide': 'delete category'}</span>
+            <span  onClick={()=>props.toggleDeleteCategory()} className={classes.toggleMC}>{props.show ? 'hide': 'delete category'}</span>
         </div>
     )
 };

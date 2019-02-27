@@ -16,11 +16,17 @@ import ModalError from '../../components/UI/ModalError/ModalError';
 import AddCategory from '../../components/UI/AddCategory/AddCategory';
 import DeleteCategory from '../../components/UI/DeleteCategory/DeleteCategory'
 import {closeModal, showModal} from "../../store/actions/modal";
+import {postCategories} from "../../store/actions/myCabinet"
 
 class Earnings extends Component {
-componentDidMount(){
+    async componentDidMount(){
+        const categories = await axios.get('/categories.json');
+        console.log('categories->', categories.data);
+        this.setState({
+            selectOptions: categories.data
+        })
+    }
 
-}
     state = {
         isLoading: false,
         isFormValid: false,
@@ -35,10 +41,10 @@ componentDidMount(){
         categoryValue: '',
         disabled: true,
         selectOptions: [
-            {text: 'salary', value: 'salary'},
-            {text: 'pension', value: 'pension'},
-            {text: 'dividends', value: 'dividends'},
-            {text: 'bribe', value: 'bribe'}
+            {text: 'salary', value: 'salary', user: ''},
+            {text: 'pension', value: 'pension', user: ''},
+            {text: 'dividends', value: 'dividends', user: ''},
+            {text: 'bribe', value: 'bribe', user: ''}
         ],
         formControls: {
             sum: {
@@ -67,7 +73,6 @@ componentDidMount(){
             },
         }
     };
-
 
     addEarningHandler = async (event)=>{
         event.preventDefault();
@@ -220,36 +225,49 @@ componentDidMount(){
         })
     };
     changeCategoryHandler = (event)=>{
-        console.log(event.target.value);
         this.setState({
             categoryValue: event.target.value,
             disabled: false
         })
     };
     addCategoryHandler = ()=>{
-        const categoryList = [... this.state.selectOptions];
+        const categoryList = [...this.state.selectOptions];
         const newCategory = {text: this.state.categoryValue, value: this.state.categoryValue};
         categoryList.push(newCategory);
+        const res = categoryList.map((category)=>{
+            return(
+                {text: category.text, value: category.value, user: this.props.activeUser}
+            )
+        });
+        this.props.postCategories(res);
         this.setState({
-            selectOptions: categoryList,
+            selectOptions: res,
             categoryValue: '',
             disabled: true
-        })
+        });
+    };
+    deleteCategoryHandler = (index)=>{
+        const categoryList = this.state.selectOptions;
+        categoryList.splice(index, 1);
+        this.setState({
+            selectOptions: categoryList
+        });
+        this.props.postCategories(categoryList)
     };
   render() {
       const tableSize = 10;
       let showPagination = this.props.data ? Object.values(this.props.data) :[];
       const pageCount = Math.ceil(showPagination.length / tableSize);
+      const selectOptions = this.props.selectOptions ? this.props.selectOptions : this.state.selectOptions;
       const select = <Select
           label="Choose category"
           value={this.state.earningCategory}
           required="required"
           onChange={this.selectChangeHandler}
-          options={this.state.selectOptions}
+          options={selectOptions}
       />;
 
       let formContent;
-
       if(!this.props.earnings){
           formContent = <UserForm
               submitHandler={this.submitHandler}
@@ -262,7 +280,9 @@ componentDidMount(){
       }
       if(this.props.earnings){
           const displayData = _.chunk(showPagination, tableSize)[this.state.currentPage];
-          formContent =
+          formContent = this.props.loading ?
+              <Loader/>
+              :
               <Table
                   data={displayData}
                   onSort={this.onSort}
@@ -273,21 +293,31 @@ componentDidMount(){
 
     return (
       <div className={classes.Earnings}>
-          <AddCategory
-             show={this.state.showAddCategory}
-             toggleAddCategory={this.toggleAddCategoryHandler}
-             submit={this.submitHandler}
-             changeCategory={(event)=>this.changeCategoryHandler(event)}
-             addCategory={this.addCategoryHandler}
-             categoryValue={this.state.categoryValue}
-             disabled={this.state.disabled}
-          />
-          <DeleteCategory
-              show={this.state.showDeleteCategory}
-              deleteCategory={this.toggleDeleteCategoryHandler}
-              categories={this.state.selectOptions}
-              submit={this.submitHandler}
-          />
+          {
+              !this.props.earnings
+              ?
+                  <>
+                      <AddCategory
+                          show={this.state.showAddCategory}
+                          toggleAddCategory={this.toggleAddCategoryHandler}
+                          submit={this.submitHandler}
+                          changeCategory={(event)=>this.changeCategoryHandler(event)}
+                          addCategory={this.addCategoryHandler}
+                          categoryValue={this.state.categoryValue}
+                          disabled={this.state.disabled}
+                      />
+                      <DeleteCategory
+                          show={this.state.showDeleteCategory}
+                          toggleDeleteCategory={this.toggleDeleteCategoryHandler}
+                          deleteCategory={(index)=>this.deleteCategoryHandler(index)}
+                          categories={this.state.selectOptions}
+                          submit={this.submitHandler}
+                  />
+              </>
+              : null
+
+          }
+
           <ModalError
               show={this.props.show}
               closeModal={this.props.closeModal}
@@ -307,9 +337,6 @@ componentDidMount(){
               </Button>
           </div>
           {
-              this.props.loading ?
-                  <Loader/>
-                  :
                   formContent
           }
           {
@@ -333,7 +360,7 @@ componentDidMount(){
          loading: state.auth.loading,
          data: state.myCabinet.usersData,
          show: state.modal.show,
-         message: state.modal.message
+         message: state.modal.message,
      }
  }
 
@@ -343,7 +370,8 @@ function mapDispatchToProps(dispatch){
         fetchUsersData: ()=> dispatch(fetchUsersData()),
         sortedData: (data)=> dispatch(sortedData(data)),
         closeModal: ()=> dispatch(closeModal()),
-        showModal: (error)=> dispatch(showModal(error))
+        showModal: (error)=> dispatch(showModal(error)),
+        postCategories: (data)=> dispatch(postCategories(data)),
     }
 }
 

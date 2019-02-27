@@ -56,3 +56,14 @@ export function sortedData(data) {
         payload: data
     }
 }
+export function postCategories(data) {
+    return async (dispatch) => {
+        try{
+          await axios.put('/categories.json', data);
+        }
+        catch(error){
+            console.log(error.message);
+            dispatch(showModal(error.message));
+        }
+    }
+}
