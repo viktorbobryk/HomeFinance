@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from './table.scss';
+import classes from './Table.scss';
 
 const Table = (props) => {
     if((props.data === undefined || props.data === null)){

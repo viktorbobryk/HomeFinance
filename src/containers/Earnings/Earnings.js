@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import classes from './Earnings.scss';
 import Loader from '../../components/UI/Loader/Loader';
 import Table from '../../components/UI/Table/Table';
+import TableSearch from '../../components/UI/TableSearch/TableSearch';
 import UserForm from '../../components/UI/UserForm/UserForm';
 import {showEarnings, fetchUsersData, sortedData} from "../../store/actions/myCabinet";
 import is from 'is_js';
@@ -46,6 +47,7 @@ class Earnings extends Component {
             {text: 'dividends', value: 'dividends', user: ''},
             {text: 'bribe', value: 'bribe', user: ''}
         ],
+        search: '',
         formControls: {
             sum: {
                 value: '',
@@ -254,10 +256,28 @@ class Earnings extends Component {
         });
         this.props.postCategories(categoryList)
     };
+    searchHandler = (search)=>{
+        this.setState({search, currentPage: 0});
+    };
+    getFilteredData = ()=>{
+        const search = this.state.search;
+        const data = this.props.data ? Object.values(this.props.data) :[];
+
+        if(!search){
+            return data;
+        }
+        if(data.length < 1){
+            return data;
+        }
+         return data.filter((item)=>{
+             return item['earningCategory'].toLowerCase().includes(search.toLowerCase())
+         })
+
+    };
   render() {
+      let formContent;
       const tableSize = 10;
-      let showPagination = this.props.data ? Object.values(this.props.data) :[];
-      const pageCount = Math.ceil(showPagination.length / tableSize);
+      let filteredData = [];
       const selectOptions = this.props.selectOptions ? this.props.selectOptions : this.state.selectOptions;
       const select = <Select
           label="Choose category"
@@ -267,7 +287,6 @@ class Earnings extends Component {
           options={selectOptions}
       />;
 
-      let formContent;
       if(!this.props.earnings){
           formContent = <UserForm
               submitHandler={this.submitHandler}
@@ -279,17 +298,25 @@ class Earnings extends Component {
           />
       }
       if(this.props.earnings){
-          const displayData = _.chunk(showPagination, tableSize)[this.state.currentPage];
+          filteredData = this.getFilteredData();
+          const displayData = _.chunk(filteredData, tableSize)[this.state.currentPage];
           formContent = this.props.loading ?
               <Loader/>
               :
-              <Table
-                  data={displayData}
-                  onSort={this.onSort}
-                  sort={this.state.sortTo}
-                  sortField={this.state.sortField}
-              />
+              <>
+                  <TableSearch
+                    onSearch={this.searchHandler}
+                  />
+                  <Table
+                      data={displayData}
+                      onSort={this.onSort}
+                      sort={this.state.sortTo}
+                      sortField={this.state.sortField}
+                  />
+              </>
       }
+      const pageCount = Math.ceil(filteredData.length / tableSize);
+      console.log(filteredData);
 
     return (
       <div className={classes.Earnings}>
@@ -340,7 +367,7 @@ class Earnings extends Component {
                   formContent
           }
           {
-              (this.props.earnings && showPagination.length > tableSize)
+              (this.props.earnings && filteredData.length > tableSize)
               ?
                   <Pagination
                       pageChangeHandler={this.pageChangeHandler}
