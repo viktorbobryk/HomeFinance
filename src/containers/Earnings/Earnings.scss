@@ -4,9 +4,38 @@
   overflow: hidden;
   padding-bottom: 20px;
   .earningsHeader{
+    position: relative;
     background: $error;
     margin-bottom: 10px;
 
+  }
+  .SearchPanel{
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 10px;
+    box-sizing: border-box;
+    .header{
+      background-color: #fff;
+      padding: 5px;
+      border: 2px solid grey;
+      span{
+        font-weight: bold;
+        font-size: 18px;
+        padding-right: 20px;
+      }
+      button{
+        border-radius: 4px;
+        padding: 5px 20px;
+        transition: all 0.4s ease-in-out;
+        &:hover{
+         opacity: o.8;
+        }
+      }
+    }
+    .content{
+      background-color: $white;
+    }
   }
   form{
     width: 70%;

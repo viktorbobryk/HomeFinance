@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import classes from './Earnings.scss';
 import Loader from '../../components/UI/Loader/Loader';
 import Table from '../../components/UI/Table/Table';
-import TableSearch from '../../components/UI/TableSearch/TableSearch';
+import SearchByCategory from '../../components/UI/SearchByCategory/SearchByCategory';
+import SearchByDate from '../../components/UI/SearchByDate/SearchByDate';
+import SearchBySum from '../../components/UI/SearchBySum/SearchBySum';
 import UserForm from '../../components/UI/UserForm/UserForm';
 import {showEarnings, fetchUsersData, sortedData} from "../../store/actions/myCabinet";
 import is from 'is_js';
@@ -22,7 +24,6 @@ import {postCategories} from "../../store/actions/myCabinet"
 class Earnings extends Component {
     async componentDidMount(){
         const categories = await axios.get('/categories.json');
-        console.log('categories->', categories.data);
         this.setState({
             selectOptions: categories.data
         })
@@ -47,7 +48,13 @@ class Earnings extends Component {
             {text: 'dividends', value: 'dividends', user: ''},
             {text: 'bribe', value: 'bribe', user: ''}
         ],
-        search: '',
+        searchByValue: '',
+        searchByDate: '',
+        searchBySum: '',
+        startFilterBy: '',
+        showCategoryFilter: false,
+        showDateFilter: false,
+        showSumFilter: false,
         formControls: {
             sum: {
                 value: '',
@@ -256,23 +263,62 @@ class Earnings extends Component {
         });
         this.props.postCategories(categoryList)
     };
-    searchHandler = (search)=>{
-        this.setState({search, currentPage: 0});
+    searchByValueHandler = (...args)=>{
+        this.setState({searchByValue: args, currentPage: 0});
     };
     getFilteredData = ()=>{
-        const search = this.state.search;
+        const search = this.state.searchByValue;
         const data = this.props.data ? Object.values(this.props.data) :[];
 
+        // if(search.length > 0){
+        //     console.log('search->', typeof(search[0]));
+        //     console.log(search[0].getTime());
+        // }
         if(!search){
             return data;
         }
         if(data.length < 1){
             return data;
         }
-         return data.filter((item)=>{
-             return item['earningCategory'].toLowerCase().includes(search.toLowerCase())
-         })
-
+        if(search.length === 1){
+            return data.filter((item)=>{
+                return item['earningCategory'].toLowerCase().includes(search[0].toLowerCase())
+            })
+        }
+        if(search.length === 2){
+            console.log(typeof(search[0]));
+            if(typeof(search[0]) === 'string'){
+                return data.filter((item)=>{
+                    return item['earningSum'] >= search[0] && item[['earningSum']] <= search[1]
+                })
+            }
+            if(typeof(search[0]) === 'object'){
+                return data.filter((item)=>{
+                    return new Date(item['earningDate']).getTime() >= search[0].getTime() && new Date(item[['earningSum']]).getTime() <= search[1].getTime()
+                })
+            }
+        }
+    };
+    showFilterByCategory =()=>{
+        this.setState({
+            showCategoryFilter: !this.state.showCategoryFilter,
+            showDateFilter: false,
+            showSumFilter: false
+        })
+    };
+    showFilterByDate =()=>{
+        this.setState({
+            showDateFilter: !this.state.showDateFilter,
+            showCategoryFilter: false,
+            showSumFilter: false
+        })
+    };
+    showFilterBySum =()=>{
+        this.setState({
+            showSumFilter: !this.state.showSumFilter,
+            showCategoryFilter: false,
+            showDateFilter: false
+        })
     };
   render() {
       let formContent;
@@ -304,9 +350,29 @@ class Earnings extends Component {
               <Loader/>
               :
               <>
-                  <TableSearch
-                    onSearch={this.searchHandler}
-                  />
+                  <div className={classes.SearchPanel}>
+                      <div className={classes.header}>
+                          <span>Fiter table data by : </span>
+                          <Button type="primary" onClick={this.showFilterByCategory}>Category</Button>
+                          <Button type="succsess" onClick={this.showFilterByDate}>Date</Button>
+                          <Button type="error" onClick={this.showFilterBySum}>Sum</Button>
+                      </div>
+                      <div className={classes.content}>
+                          <SearchByCategory
+                              show={this.state.showCategoryFilter}
+                              onSearch={this.searchByValueHandler}
+                          />
+                          <SearchByDate
+                              show={this.state.showDateFilter}
+                              onSearch={this.searchByValueHandler}
+                          />
+                          <SearchBySum
+                              show={this.state.showSumFilter}
+                              onSearch={this.searchByValueHandler}
+                          />
+                      </div>
+
+                  </div>
                   <Table
                       data={displayData}
                       onSort={this.onSort}
@@ -316,7 +382,6 @@ class Earnings extends Component {
               </>
       }
       const pageCount = Math.ceil(filteredData.length / tableSize);
-      console.log(filteredData);
 
     return (
       <div className={classes.Earnings}>

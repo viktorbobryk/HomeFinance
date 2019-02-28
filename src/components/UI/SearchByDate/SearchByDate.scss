@@ -1,0 +1,34 @@
+@import '../../../styles/colors';
+.SearchByDate{
+  display: flex;
+  justify-content: flex-start;
+  padding: 15px;
+  .filterBy{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    button{
+      border: 2px solid $darkGrey;
+      border-radius: 5px;
+      padding: 5px 20px;
+      color: #000;
+      margin-right: 0;
+      text-transform: capitalize;
+      font-size: 16px;
+      transition: background-color 0.4s ease-in-out;
+      &:hover{
+        background-color: $darkGrey;
+      }
+    }
+    input{
+      position: relative;
+      width: 130px;
+      box-sizing: border-box;
+      border: 2px solid $darkGrey;
+      border-radius: 4px;
+      font-size: 16px;
+      padding: 0;
+      margin-left: 5px;
+    }
+  }
+}

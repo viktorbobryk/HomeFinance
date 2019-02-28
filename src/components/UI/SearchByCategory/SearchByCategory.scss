@@ -1,0 +1,40 @@
+@import '../../../styles/colors';
+.SearchByCategory{
+  justify-content: flex-start;
+  padding: 15px;
+    button{
+      border: 2px solid $darkGrey;
+      border-right: 1px solid $darkGrey;
+      border-radius: 5px 0 0 5px;
+      padding: 5px 20px;
+      color: #000;
+      margin-right: 0;
+      text-transform: capitalize;
+      font-size: 16px;
+      transition: background-color 0.4s ease-in-out;
+      &:hover{
+        background-color: $darkGrey;
+      }
+    }
+    input{
+      position: relative;
+      width: 130px;
+      box-sizing: border-box;
+      border: 2px solid $darkGrey;
+      border-left: 1px solid $darkGrey;
+      border-radius: 0 4px 4px 0;
+      font-size: 16px;
+      padding: 0 20px 0 40px;
+      transition: width 0.4s ease-in-out;
+      &:focus {
+        width: 100%;
+      }
+      &:before{
+        content: "\f002";
+        font-family: "Font Awesome 5 Free";
+        left:-5px;
+        position:absolute;
+        top:0;
+      }
+    }
+}

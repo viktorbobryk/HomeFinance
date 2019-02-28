@@ -18,7 +18,7 @@ const DeleteCategory= (props) => {
             <ul>
                 {list}
             </ul>
-            <span  onClick={()=>props.toggleDeleteCategory()} className={classes.toggleMC}>{props.show ? 'hide': 'delete category'}</span>
+            <span  onClick={()=>props.toggleDeleteCategory()} className={classes.toggleView}>{props.show ? 'hide': 'delete category'}</span>
         </div>
     )
 };

@@ -5,7 +5,7 @@ import Button from '../../../components/UI/Button/Button'
 const AddCategory= (props) => {
     // console.log(props);
     return (
-        <div className={classes.ManageCategories} style={{transform: props.show ? 'translateX(0)' : 'translateX(204px)',
+        <div className={classes.addCategory} style={{transform: props.show ? 'translateX(0)' : 'translateX(204px)',
             zIndex: props.addCategory ? 10 : 0
         }}
         >
@@ -21,7 +21,7 @@ const AddCategory= (props) => {
                     Add category
                 </Button>
             </form>
-            <span  onClick={()=>props.toggleAddCategory()} className={classes.toggleMC}>{props.show ? 'hide': 'add category'}</span>
+            <span  onClick={()=>props.toggleAddCategory()} className={classes.toggleView}>{props.show ? 'hide': 'add category'}</span>
         </div>
     )
 };
