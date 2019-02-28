@@ -7,6 +7,7 @@ import Button from '../Button/Button';
 const SearchByDate = (props) => {
     const [valueMin, setValueMin] = useState('');
     const [valueMax, setValueMax] = useState('');
+    // const [disable, setDisable] = useState(false);
 
     const valueChangeHandlerMin = (event)=>{
         setValueMin(event.target.value)
@@ -21,6 +22,7 @@ const SearchByDate = (props) => {
             <div className={classes.filterBy}>
                 <Button
                     onClick={()=> {props.onSearch(new Date(valueMin), new Date(valueMax));  setValueMin(""); setValueMax("")}}
+                    disabled={!(valueMin.length && valueMax.length)}
                 >Search</Button>
                 <label>From
                     <input type="date"

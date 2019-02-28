@@ -21,6 +21,7 @@ const SearchByCategory = (props) => {
             <div className={classes.filterBy}>
                 <Button
                     onClick={()=> {props.onSearch(valueMin, valueMax); setValueMin(""); setValueMax("")}}
+                    disabled={!(valueMin.length && valueMax.length)}
                 >Search</Button>
                 <label>From
                     <input type="number"
