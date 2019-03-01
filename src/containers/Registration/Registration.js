@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect}from 'react-redux';
 import Auth from '../Auth/Auth';
 import ModalError from '../../components/UI/ModalError/ModalError';
-import {closeModal} from "../../store/actions/modal";
+import {closeModalError} from "../../store/actions/modal";
 
 class Registration extends Component {
 
@@ -14,7 +14,7 @@ class Registration extends Component {
             <React.Fragment>
                 <ModalError
                     show={this.props.show}
-                    closeModal={this.props.closeModal}
+                    closeModal={this.props.closeModalError}
                 >{this.props.message}</ModalError>
                 <Auth
                     isLogin={false}/>
@@ -32,7 +32,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
     return{
-        closeModal: ()=> dispatch(closeModal()),
+        closeModalError: ()=> dispatch(closeModalError()),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps )(Registration);

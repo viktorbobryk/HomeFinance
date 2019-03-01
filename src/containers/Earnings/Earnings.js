@@ -18,7 +18,7 @@ import Select from '../../components/UI/Select/Select';
 import ModalError from '../../components/UI/ModalError/ModalError';
 import AddCategory from '../../components/UI/AddCategory/AddCategory';
 import DeleteCategory from '../../components/UI/DeleteCategory/DeleteCategory'
-import {closeModal, showModal} from "../../store/actions/modal";
+import {closeModalError, showModal} from "../../store/actions/modal";
 import {postCategories} from "../../store/actions/myCabinet"
 
 class Earnings extends Component {
@@ -461,7 +461,7 @@ function mapDispatchToProps(dispatch){
         showEarnings: (val)=> dispatch(showEarnings(val)),
         fetchUsersData: ()=> dispatch(fetchUsersData()),
         sortedData: (data)=> dispatch(sortedData(data)),
-        closeModal: ()=> dispatch(closeModal()),
+        closeModalError: ()=> dispatch(closeModalError()),
         showModal: (error)=> dispatch(showModal(error)),
         postCategories: (data)=> dispatch(postCategories(data)),
     }

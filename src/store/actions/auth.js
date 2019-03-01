@@ -120,3 +120,16 @@ export function loading(val) {
         payload: val
     }
 }
+export function deleteUser() {
+    return async dispatch => {
+        try{
+            await firebaseRef.auth().currentUser.delete();
+            dispatch(logout());
+        }
+        catch(e){
+            console.log(e);
+            dispatch(showModal(e.message));
+        }
+    };
+
+}

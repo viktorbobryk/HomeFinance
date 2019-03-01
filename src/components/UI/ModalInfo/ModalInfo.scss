@@ -1,0 +1,19 @@
+@import '../../../styles/colors';
+.ModalInfo{
+  position: fixed;
+  z-index: 500;
+  box-shadow: 2px 2px 4px $black, -2px 0px 4px $black;
+  left: calc(50% - 175px);
+  top: 30%;
+  box-sizing: border-box;
+  transition: all 0.6s ease-out;
+  border: 2px solid grey;
+  border-radius: 5px;
+  width: 350px;
+  background: white;
+  text-align: center;
+  padding: 10px;
+  h2{
+    color: $red
+  }
+}

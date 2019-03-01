@@ -10,6 +10,9 @@
   margin-bottom: 20px;
   color: $white;
   line-height: 2;
+    button{
+      float: right;
+    }
     span{
       float: right;
       &:last-child{

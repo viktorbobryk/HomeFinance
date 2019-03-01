@@ -3,32 +3,41 @@ import {connect} from 'react-redux';
 import {NavLink, withRouter} from 'react-router-dom'
 import {logout} from '../../store/actions/auth'
 import {fetchUsers, fetchUsersData} from "../../store/actions/myCabinet";
-import {activeUser} from "../../store/actions/auth";
-import {closeModal} from '../../store/actions/modal'
+import {activeUser, deleteUser} from "../../store/actions/auth";
+import {closeModalError} from '../../store/actions/modal'
 import classes from './MyCabinet.scss';
 import Earnings from '../Earnings/Earnings';
 import Salary from '../../components/Salary/Salary';
 import Spending from '../../components/Spending/Spending';
 import Charts from '../../components/Charts/Charts';
 import Others from '../../components/Others/Others';
-import ModalError from '../../components/UI/ModalError/ModalError'
+import ModalError from '../../components/UI/ModalError/ModalError';
+import ModalInfo from '../../components/UI/ModalInfo/ModalInfo'
+import Button from "../../components/UI/Button/Button";
 
 const arr = [<Earnings/>, <Salary/>, <Spending/>, <Charts/>, <Others/>];
 
 let child = arr[0];
 
-
 class MyCabinet extends Component {
+    state = {
+        show: false
+    };
 
-
-  componentDidMount(){
+   componentDidMount(){
       this.props.fetchUsers();
       this.props.getActiveUser();
       this.props.fetchUsersData();
-  }
+   }
 
     clickHandler = (id)=>{
       child = arr[id];
+    };
+    toggleModalInfoHandler = ()=>{
+        console.log(this.state.show);
+        this.setState({
+            show: !this.state.show
+        })
     };
 
   render() {
@@ -64,9 +73,16 @@ class MyCabinet extends Component {
         <div className={classes.Mycabinet}>
             <ModalError
                 showModal={this.props.show}
-                modalClosed={this.props.closeModal}
+                modalClosed={this.props.closeModalError}
             >{this.props.message}</ModalError>
-            <div className={classes.userInfo}>Manage your family budget with Home Finance &trade;<span>{this.props.activeUser}</span> <span><i className="fas fa-user-circle fa-2x"></i></span></div>
+            <ModalInfo
+                message="Your account will be deleted!!!"
+                answer='Do you want to continue?'
+                show={this.state.show}
+                deleteUser={this.props.deleteUser}
+                toggleView={this.toggleModalInfoHandler}
+            />
+            <div className={classes.userInfo}>Manage your family budget with Home Finance &trade;<span>{this.props.activeUser}</span> <span><i className="fas fa-user-circle fa-2x"></i></span><Button type='error' onClick={this.toggleModalInfoHandler}>Delete account</Button></div>
             <nav>
                 <ul>
                     {renderLinks()}
@@ -95,7 +111,8 @@ function mapDispatchToProps(dispatch){
     fetchUsers:()=> dispatch(fetchUsers()),
     fetchUsersData:()=> dispatch(fetchUsersData()),
     getActiveUser: ()=> dispatch(activeUser()),
-    closeModal: ()=> dispatch(closeModal())
+    closeModalError: ()=> dispatch(closeModalError()),
+    deleteUser: ()=>dispatch(deleteUser())
   }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MyCabinet));

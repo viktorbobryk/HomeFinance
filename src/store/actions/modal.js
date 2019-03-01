@@ -7,7 +7,7 @@ export function showModal(message){
         payload: message
     }
 }
-export function closeModal(){
+export function closeModalError(){
     return {
         type: CLOSE_MODAL
     }
