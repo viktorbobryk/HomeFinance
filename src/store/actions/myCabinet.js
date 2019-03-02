@@ -2,6 +2,7 @@ import axios from '../../axios/axios';
 import {SAVE_USER, SAVE_USER_DATA, EARNINGS, SPENDING, SORTED_DATA} from './actionTypes';
 import {loading} from '../actions/auth';
 import {showModal} from '../actions/modal';
+import firebaseRef from '../../firebase/firebase';
 
 export function fetchUsers(){
 
@@ -47,9 +48,25 @@ export function fetchUsersData(val) {
     if(val === 'earnings'){
         return async (dispatch) => {
             try{
-                const res = await axios.get('/earnings.json');
-                dispatch(saveUsersData(res.data));
-                dispatch(loading(false));
+                //const res = await axios.get('/earnings.json');
+                
+                let curUser = firebaseRef.auth().currentUser;
+                let query =firebaseRef.database().ref('earnings').orderByChild('user').equalTo(curUser.email);
+                let arr=[];
+                query.once('value', function(snapshot) {
+                    console.log(snapshot);
+                    snapshot.forEach(function(ce){
+                        
+                        console.log(ce);
+                        arr.push(ce.val());
+                        
+                    });
+                });      
+                console.log(arr);
+                     dispatch(saveUsersData(arr));
+                    dispatch(loading(false));
+                
+                
             }
             catch(error){
                 console.log(error.message);
