@@ -1,6 +1,7 @@
 import {AUTH_LOGOUT, AUTH_SUCCESS, ACTIVE_USER, LOADING} from './actionTypes';
 import firebaseRef from '../../firebase/firebase';
 import {showModal} from './modal'
+// import firebase from "firebase/index";
 
 export function registration(email, password){
     return async dispatch => {
@@ -133,3 +134,28 @@ export function deleteUser() {
     };
 
 }
+// export function facebookAuth() {
+//     const provider = firebaseRef.auth.FacebookAuthProvider();
+//     provider.addScope('user_birthday');
+//     provider.setCustomParameters({
+//         'display': 'popup'
+//     });
+//     return async dispatch => {
+//         await firebaseRef.auth().signInWithPopup(provider).then(function (result) {
+//             // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+//             var token = result.credential.accessToken;
+//             // The signed-in user info.
+//             var user = result.user;
+//             // ...
+//         }).catch(function (error) {
+//             // Handle Errors here.
+//             var errorCode = error.code;
+//             var errorMessage = error.message;
+//             // The email of the user's account used.
+//             var email = error.email;
+//             // The firebase.auth.AuthCredential type that was used.
+//             var credential = error.credential;
+//             // ...
+//         });
+//     }
+// }

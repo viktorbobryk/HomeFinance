@@ -12,6 +12,7 @@ class Header extends Component {
             {to: '/blog', label: 'Blog', exact: false}
         ];
         let linksRight = [
+            {to: '/facebook', label: 'Facebook', exact: false},
             {to: '/login', label: 'Login', exact: false},
             {to: '/registration', label: 'Signup', exact: false}
         ];

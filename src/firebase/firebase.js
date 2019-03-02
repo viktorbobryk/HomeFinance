@@ -6,17 +6,19 @@ import 'firebase/auth';
 // import 'firebase/messaging';
 // import 'firebase/functions';
 
- let auth = null;
  const config = {
   apiKey: "AIzaSyAmPD6vG0-Moyw2c61U9IcaV54OLzAF4oo",
   authDomain: "homefinance-4beab.firebaseapp.com",
   databaseURL: "https://homefinance-4beab.firebaseio.com" 
 };
-const firebaseRef = firebase.initializeApp(config);
+ const firebaseRef = firebase.initializeApp(config);
+// const provider = new firebase.auth.FacebookAuthProvider();
+// provider.addScope('user_birthday');
+// provider.setCustomParameters({
+//     'display': 'popup'
+// });
 
-firebase.auth().onAuthStateChanged(function(user) {
-    auth = user;
-});
+ firebaseRef.auth().onAuthStateChanged(function(user) {});
 
 export default firebaseRef;
 

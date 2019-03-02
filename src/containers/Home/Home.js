@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {NavLink} from 'react-router-dom'
-import  classes from './Home.scss'
+import {NavLink} from 'react-router-dom';
+import  classes from './Home.scss';
 
 class Home extends Component {
 

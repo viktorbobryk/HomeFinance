@@ -19,10 +19,6 @@ const SearchByCategory = (props) => {
                                                      backgroundColor: props.show ? '#f0576c' : 'white' }}>
 
             <div className={classes.filterBy}>
-                <Button
-                    onClick={()=> {props.onSearch(valueMin, valueMax); setValueMin(""); setValueMax("")}}
-                    disabled={!(valueMin.length && valueMax.length)}
-                >Search</Button>
                 <label>From
                     <input type="number"
                            name="from"
@@ -37,6 +33,10 @@ const SearchByCategory = (props) => {
                            onChange={valueChangeHandlerMax}
                     />
                 </label>
+                <Button
+                    onClick={()=> {props.onSearch(valueMin, valueMax); setValueMin(""); setValueMax("")}}
+                    disabled={!(valueMin.length && valueMax.length)}
+                >Search</Button>
             </div>
         </div>
     );

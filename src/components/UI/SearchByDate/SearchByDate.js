@@ -20,10 +20,6 @@ const SearchByDate = (props) => {
             backgroundColor: props.show ? '#a1f045' : 'white' }}>
 
             <div className={classes.filterBy}>
-                <Button
-                    onClick={()=> {props.onSearch(new Date(valueMin), new Date(valueMax));  setValueMin(""); setValueMax("")}}
-                    disabled={!(valueMin.length && valueMax.length)}
-                >Search</Button>
                 <label>From
                     <input type="date"
                            name="from"
@@ -38,6 +34,10 @@ const SearchByDate = (props) => {
                            onChange={valueChangeHandlerMax}
                     />
                 </label>
+                <Button
+                    onClick={()=> {props.onSearch(new Date(valueMin), new Date(valueMax));  setValueMin(""); setValueMax("")}}
+                    disabled={!(valueMin.length && valueMax.length)}
+                >Search</Button>
             </div>
         </div>
     );

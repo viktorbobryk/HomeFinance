@@ -11,10 +11,11 @@ const UserForm = (props) => {
 
           <Button
               type={props.type}
-              onClick={props.addEarningHandler}
+              onClick={props.addMoneyHandler}
               disabled={props.disabled}
+              id={props.id}
           >
-              Add earning
+              {props.typeMoney}
           </Button>
       </form>
   );

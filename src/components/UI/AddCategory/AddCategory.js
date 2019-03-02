@@ -10,7 +10,7 @@ const AddCategory= (props) => {
         }}
         >
 
-            <form onSubmit={props.submit}>
+            <form onSubmit={props.submit} style={{width: '100%'}}>
                 Enter new category
                 <input type="text" onChange={props.changeCategory} value={props.categoryValue}/>
                 <Button

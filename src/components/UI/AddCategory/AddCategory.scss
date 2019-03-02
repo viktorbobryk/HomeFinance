@@ -1,4 +1,3 @@
-
 @import '../../../styles/colors';
 .addCategory{
   border: 2px solid $primary;
@@ -15,7 +14,7 @@
     position: relative;
     display: inline-block;
     left: -125px;
-    bottom: -1;
+    bottom: 1px;
     line-height: 25px;
     text-align: center;
     width: 115px;

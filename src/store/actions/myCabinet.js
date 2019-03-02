@@ -1,5 +1,5 @@
 import axios from '../../axios/axios';
-import {SAVE_USER, SAVE_USER_DATA, EARNINGS, SORTED_DATA} from './actionTypes';
+import {SAVE_USER, SAVE_USER_DATA, EARNINGS, SPENDING, SORTED_DATA} from './actionTypes';
 import {loading} from '../actions/auth';
 import {showModal} from '../actions/modal';
 
@@ -37,16 +37,37 @@ export function showEarnings(val) {
         payload: val
     }
 }
-export function fetchUsersData() {
-    return async (dispatch) => {
-        try{
-            const res = await axios.get('/earnings.json');
-            dispatch(saveUsersData(res.data));
-            dispatch(loading(false));
+export function showSpending(val) {
+    return {
+        type: SPENDING,
+        payload: val
+    }
+}
+export function fetchUsersData(val) {
+    if(val === 'earnings'){
+        return async (dispatch) => {
+            try{
+                const res = await axios.get('/earnings.json');
+                dispatch(saveUsersData(res.data));
+                dispatch(loading(false));
+            }
+            catch(error){
+                console.log(error.message);
+                dispatch(showModal(error.message));
+            }
         }
-        catch(error){
-            console.log(error.message);
-            dispatch(showModal(error.message));
+    }
+    if(val === 'spending'){
+        return async (dispatch) => {
+            try{
+                const res = await axios.get('/spending.json');
+                dispatch(saveUsersData(res.data));
+                dispatch(loading(false));
+            }
+            catch(error){
+                console.log(error.message);
+                dispatch(showModal(error.message));
+            }
         }
     }
 }
@@ -56,10 +77,21 @@ export function sortedData(data) {
         payload: data
     }
 }
-export function postCategories(data) {
+export function postEarningCategories(data) {
     return async (dispatch) => {
         try{
-          await axios.put('/categories.json', data);
+          await axios.put('/earningCategories.json', data);
+        }
+        catch(error){
+            console.log(error.message);
+            dispatch(showModal(error.message));
+        }
+    }
+}
+export function postSpendingCategories(data) {
+    return async (dispatch) => {
+        try{
+            await axios.put('/spendingCategories.json', data);
         }
         catch(error){
             console.log(error.message);

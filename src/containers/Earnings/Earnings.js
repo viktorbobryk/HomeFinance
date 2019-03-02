@@ -19,14 +19,18 @@ import ModalError from '../../components/UI/ModalError/ModalError';
 import AddCategory from '../../components/UI/AddCategory/AddCategory';
 import DeleteCategory from '../../components/UI/DeleteCategory/DeleteCategory'
 import {closeModalError, showModal} from "../../store/actions/modal";
-import {postCategories} from "../../store/actions/myCabinet"
+import {postEarningCategories} from "../../store/actions/myCabinet"
 
 class Earnings extends Component {
+
     async componentDidMount(){
-        const categories = await axios.get('/categories.json');
-        this.setState({
-            selectOptions: categories.data
-        })
+        const categories = await axios.get('/earningCategories.json');
+        if(categories.data != null){
+            this.setState({
+                selectOptions: categories.data
+            })
+        }
+        document.getElementById('clicked').click();
     }
 
     state = {
@@ -92,7 +96,7 @@ class Earnings extends Component {
             earningDate: state.earningDate,
             earningCategory: state.earningCategory
         };
-        const formControls = state.formControls;
+        const formControls = this.state.formControls;
 
         Object.keys(formControls).forEach(name => {
             Object.keys(formControls[name]).forEach(val =>{
@@ -187,7 +191,7 @@ class Earnings extends Component {
     };
     showEarningHandler = (val) =>{
         this.props.showEarnings(val);
-        this.props.fetchUsersData()
+        this.props.fetchUsersData('earnings')
     };
     renderInputs = ()=> {
         return Object.keys(this.state.formControls).map((controlName, index) => {
@@ -248,7 +252,7 @@ class Earnings extends Component {
                 {text: category.text, value: category.value, user: this.props.activeUser}
             )
         });
-        this.props.postCategories(res);
+        this.props.postEarningCategories(res);
         this.setState({
             selectOptions: res,
             categoryValue: '',
@@ -261,7 +265,7 @@ class Earnings extends Component {
         this.setState({
             selectOptions: categoryList
         });
-        this.props.postCategories(categoryList)
+        this.props.postEarningCategories(categoryList)
     };
     searchByValueHandler = (...args)=>{
         this.setState({searchByValue: args, currentPage: 0});
@@ -270,10 +274,6 @@ class Earnings extends Component {
         const search = this.state.searchByValue;
         const data = this.props.data ? Object.values(this.props.data) :[];
 
-        // if(search.length > 0){
-        //     console.log('search->', typeof(search[0]));
-        //     console.log(search[0].getTime());
-        // }
         if(!search){
             return data;
         }
@@ -339,8 +339,9 @@ class Earnings extends Component {
               renderInputs={()=>this.renderInputs()}
               select={select}
               type="primary"
-              addEarningHandler={this.addEarningHandler}
+              addMoneyHandler={this.addEarningHandler}
               disabled={!this.state.isFormValid}
+              typeMoney="Add earnings"
           />
       }
       if(this.props.earnings){
@@ -378,6 +379,7 @@ class Earnings extends Component {
                       onSort={this.onSort}
                       sort={this.state.sortTo}
                       sortField={this.state.sortField}
+                      type='earnings'
                   />
               </>
       }
@@ -412,12 +414,13 @@ class Earnings extends Component {
 
           <ModalError
               show={this.props.show}
-              closeModal={this.props.closeModal}
+              closeModal={this.props.closeModalError}
           >{this.props.message}</ModalError>
           <div className={classes.earningsHeader}>
               <Button
                   type={!this.props.earnings ? "activeHeader" : 'header'}
                   onClick={()=>this.showEarningHandler(false)}
+                  id='clicked'
               >
                   create earning
               </Button>
@@ -459,11 +462,11 @@ class Earnings extends Component {
 function mapDispatchToProps(dispatch){
     return{
         showEarnings: (val)=> dispatch(showEarnings(val)),
-        fetchUsersData: ()=> dispatch(fetchUsersData()),
+        fetchUsersData: (val)=> dispatch(fetchUsersData(val)),
         sortedData: (data)=> dispatch(sortedData(data)),
         closeModalError: ()=> dispatch(closeModalError()),
         showModal: (error)=> dispatch(showModal(error)),
-        postCategories: (data)=> dispatch(postCategories(data)),
+        postEarningCategories: (data)=> dispatch(postEarningCategories(data)),
     }
 }
 
