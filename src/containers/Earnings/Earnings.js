@@ -6,7 +6,7 @@ import SearchByCategory from '../../components/UI/SearchByCategory/SearchByCateg
 import SearchByDate from '../../components/UI/SearchByDate/SearchByDate';
 import SearchBySum from '../../components/UI/SearchBySum/SearchBySum';
 import UserForm from '../../components/UI/UserForm/UserForm';
-import {showEarnings, fetchUsersData, sortedData} from "../../store/actions/myCabinet";
+import {showEarnings, fetchEarnings, sortedData} from "../../store/actions/myCabinet";
 import is from 'is_js';
 import {connect} from 'react-redux';
 import _ from 'lodash';
@@ -47,15 +47,12 @@ class Earnings extends Component {
         categoryValue: '',
         disabled: true,
         selectOptions: [
-            {text: 'salary', value: 'salary', user: ''},
-            {text: 'pension', value: 'pension', user: ''},
-            {text: 'dividends', value: 'dividends', user: ''},
-            {text: 'bribe', value: 'bribe', user: ''}
+            {text: 'salary', value: 'salary', user: 'all'},
+            {text: 'pension', value: 'pension', user: 'all'},
+            {text: 'dividends', value: 'dividends', user: 'all'},
+            {text: 'bribe', value: 'bribe', user: 'all'}
         ],
         searchByValue: '',
-        searchByDate: '',
-        searchBySum: '',
-        startFilterBy: '',
         showCategoryFilter: false,
         showDateFilter: false,
         showSumFilter: false,
@@ -63,7 +60,7 @@ class Earnings extends Component {
             sum: {
                 value: '',
                 type: 'number',
-                label: 'Number',
+                label: 'Sum',
                 errorMessage: 'Enter valid number',
                 valid: false,
                 touched: false,
@@ -86,7 +83,6 @@ class Earnings extends Component {
             },
         }
     };
-
     addEarningHandler = async (event)=>{
         event.preventDefault();
         const state = {...this.state};
@@ -191,7 +187,7 @@ class Earnings extends Component {
     };
     showEarningHandler = (val) =>{
         this.props.showEarnings(val);
-        this.props.fetchUsersData('earnings')
+        this.props.fetchEarnings()
     };
     renderInputs = ()=> {
         return Object.keys(this.state.formControls).map((controlName, index) => {
@@ -245,16 +241,11 @@ class Earnings extends Component {
     };
     addCategoryHandler = ()=>{
         const categoryList = [...this.state.selectOptions];
-        const newCategory = {text: this.state.categoryValue, value: this.state.categoryValue};
+        const newCategory = {text: this.state.categoryValue, value: this.state.categoryValue, user: this.props.activeUser};
         categoryList.push(newCategory);
-        const res = categoryList.map((category)=>{
-            return(
-                {text: category.text, value: category.value, user: this.props.activeUser}
-            )
-        });
-        this.props.postEarningCategories(res);
+        this.props.postEarningCategories(categoryList);
         this.setState({
-            selectOptions: res,
+            selectOptions: categoryList,
             categoryValue: '',
             disabled: true
         });
@@ -272,12 +263,11 @@ class Earnings extends Component {
     };
     getFilteredData = ()=>{
         const search = this.state.searchByValue;
-        const data = this.props.data ? Object.values(this.props.data) :[];
-
+        const data = this.props.data ? Object.values(this.props.data) : [];
         if(!search){
             return data;
         }
-        if(data.length < 1){
+        if(search.length < 1){
             return data;
         }
         if(search.length === 1){
@@ -325,12 +315,17 @@ class Earnings extends Component {
       const tableSize = 10;
       let filteredData = [];
       const selectOptions = this.props.selectOptions ? this.props.selectOptions : this.state.selectOptions;
+      console.log("selectOptions", selectOptions);
+      const currentUserOptions = selectOptions.filter((option)=>{
+          return (option.user === this.props.activeUser || option.user === 'all')
+      });
+      console.log('currentUserOptions', currentUserOptions);
       const select = <Select
           label="Choose category"
           value={this.state.earningCategory}
           required="required"
           onChange={this.selectChangeHandler}
-          options={selectOptions}
+          options={currentUserOptions}
       />;
 
       if(!this.props.earnings){
@@ -449,6 +444,7 @@ class Earnings extends Component {
   }
 }
  function mapStateToProps(state){
+    console.log(state.myCabinet.usersData);
     return{
          activeUser: state.auth.activeUser,
          earnings: state.myCabinet.showEarnings,
@@ -462,7 +458,7 @@ class Earnings extends Component {
 function mapDispatchToProps(dispatch){
     return{
         showEarnings: (val)=> dispatch(showEarnings(val)),
-        fetchUsersData: (val)=> dispatch(fetchUsersData(val)),
+        fetchEarnings: ()=> dispatch(fetchEarnings()),
         sortedData: (data)=> dispatch(sortedData(data)),
         closeModalError: ()=> dispatch(closeModalError()),
         showModal: (error)=> dispatch(showModal(error)),

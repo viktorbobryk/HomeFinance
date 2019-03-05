@@ -6,7 +6,7 @@ import SearchByCategory from '../../components/UI/SearchByCategory/SearchByCateg
 import SearchByDate from '../../components/UI/SearchByDate/SearchByDate';
 import SearchBySum from '../../components/UI/SearchBySum/SearchBySum';
 import UserForm from '../../components/UI/UserForm/UserForm';
-import {showSpending, fetchUsersData, sortedData} from "../../store/actions/myCabinet";
+import {showSpending, fetchSpending, sortedData} from "../../store/actions/myCabinet";
 import is from 'is_js';
 import {connect} from 'react-redux';
 import _ from 'lodash';
@@ -46,15 +46,12 @@ class Spending extends Component {
         categoryValue: '',
         disabled: true,
         selectOptions: [
-            {text: 'caviar', value: 'caviar', user: ''},
-            {text: 'food', value: 'food', user: ''},
-            {text: 'clothes', value: 'clothes', user: ''},
-            {text: 'gasoline', value: 'gasoline', user: ''}
+            {text: 'caviar', value: 'caviar', user: 'all'},
+            {text: 'food', value: 'food', user: 'all'},
+            {text: 'clothes', value: 'clothes', user: 'all'},
+            {text: 'gasoline', value: 'gasoline', user: 'all'}
         ],
         searchByValue: '',
-        searchByDate: '',
-        searchBySum: '',
-        startFilterBy: '',
         showCategoryFilter: false,
         showDateFilter: false,
         showSumFilter: false,
@@ -62,7 +59,7 @@ class Spending extends Component {
             sum: {
                 value: '',
                 type: 'number',
-                label: 'Number',
+                label: 'Sum',
                 errorMessage: 'Enter valid number',
                 valid: false,
                 touched: false,
@@ -104,7 +101,6 @@ class Spending extends Component {
                 }
             });
         });
-        console.log(userData);
         this.setState({
             isLoading: true,
         });
@@ -191,7 +187,7 @@ class Spending extends Component {
     };
     showEarningHandler = (val) =>{
         this.props.showSpending(val);
-        this.props.fetchUsersData('spending')
+        this.props.fetchSpending()
     };
     renderInputs = ()=> {
         return Object.keys(this.state.formControls).map((controlName, index) => {
@@ -245,16 +241,12 @@ class Spending extends Component {
     };
     addCategoryHandler = ()=>{
         const categoryList = [...this.state.selectOptions];
-        const newCategory = {text: this.state.categoryValue, value: this.state.categoryValue};
+        const newCategory = {text: this.state.categoryValue, value: this.state.categoryValue, user: this.props.activeUser};
         categoryList.push(newCategory);
-        const res = categoryList.map((category)=>{
-            return(
-                {text: category.text, value: category.value, user: this.props.activeUser}
-            )
-        });
-        this.props.postSpendingCategories(res);
+        this.props.postSpendingCategories(categoryList);
+        console.log('categoryList->', categoryList);
         this.setState({
-            selectOptions: res,
+            selectOptions: categoryList,
             categoryValue: '',
             disabled: true
         });
@@ -273,11 +265,10 @@ class Spending extends Component {
     getFilteredData = ()=>{
         const search = this.state.searchByValue;
         const data = this.props.data ? Object.values(this.props.data) :[];
-
         if(!search){
             return data;
         }
-        if(data.length < 1){
+        if(search.length < 1){
             return data;
         }
         if(search.length === 1){
@@ -286,7 +277,6 @@ class Spending extends Component {
             })
         }
         if(search.length === 2){
-            console.log(typeof(search[0]));
             if(typeof(search[0]) === 'string'){
                 return data.filter((item)=>{
                     return item['spendingSum'] >= search[0] && item[['spendingSum']] <= search[1]
@@ -325,12 +315,15 @@ class Spending extends Component {
         const tableSize = 10;
         let filteredData = [];
         const selectOptions = this.props.selectOptions ? this.props.selectOptions : this.state.selectOptions;
+        const currentUserOptions = selectOptions.filter((option)=>{
+            return (option.user === this.props.activeUser || option.user === 'all')
+        });
         const select = <Select
             label="Choose category"
             value={this.state.spendingCategory}
             required="required"
             onChange={this.selectChangeHandler}
-            options={selectOptions}
+            options={currentUserOptions}
         />;
 
         if(!this.props.earnings){
@@ -463,7 +456,7 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return{
         showSpending: (val)=> dispatch(showSpending(val)),
-        fetchUsersData: (val)=> dispatch(fetchUsersData(val)),
+        fetchSpending: (val)=> dispatch(fetchSpending()),
         sortedData: (data)=> dispatch(sortedData(data)),
         closeModalError: ()=> dispatch(closeModalError()),
         showModal: (error)=> dispatch(showModal(error)),

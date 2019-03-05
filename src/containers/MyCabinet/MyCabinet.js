@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {NavLink, withRouter} from 'react-router-dom'
 import {logout} from '../../store/actions/auth'
-import {fetchUsers} from "../../store/actions/myCabinet";
 import {activeUser, deleteUser} from "../../store/actions/auth";
 import {closeModalError} from '../../store/actions/modal'
 import classes from './MyCabinet.scss';
@@ -24,7 +23,6 @@ class MyCabinet extends Component {
     };
 
    componentDidMount(){
-      this.props.fetchUsers();
       this.props.getActiveUser();
    }
 
@@ -105,7 +103,6 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
   return{
     logout: ()=> dispatch(logout()),
-    fetchUsers:()=> dispatch(fetchUsers()),
     getActiveUser: ()=> dispatch(activeUser()),
     closeModalError: ()=> dispatch(closeModalError()),
     deleteUser: ()=>dispatch(deleteUser())

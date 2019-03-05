@@ -9,3 +9,4 @@ export const SORTED_DATA = 'SORTED_DATA';
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const SPENDING = 'SPENDING';
+export const SAVE_CATEGORIES = 'SAVE_CATEGORIES';
