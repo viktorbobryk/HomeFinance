@@ -3,7 +3,7 @@ import classes from './Table.scss';
 
 const Table = (props) => {
     if((props.data === undefined || props.data === null)){
-        return <h2>you have not added any earnings</h2>;
+        return <h2>you have not added any {props.type}</h2>;
     }
     if(props.type === 'earnings'){
         return (

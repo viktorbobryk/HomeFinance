@@ -75,7 +75,7 @@ export function fetchSpending() {
     return async (dispatch) => {
         try{
             let curUser = await firebaseRef.auth().currentUser;
-            let query = await firebaseRef.database().ref('earnings').orderByChild('user').equalTo(curUser.email);
+            let query = await firebaseRef.database().ref('spending').orderByChild('user').equalTo(curUser.email);
             let arr=[];
             await query.once('value', (snapshot)=> {
                 snapshot.forEach((item)=>{

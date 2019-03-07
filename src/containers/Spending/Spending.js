@@ -326,7 +326,7 @@ class Spending extends Component {
             options={currentUserOptions}
         />;
 
-        if(!this.props.earnings){
+        if(!this.props.spending){
             formContent = <UserForm
                 submitHandler={this.submitHandler}
                 renderInputs={()=>this.renderInputs()}

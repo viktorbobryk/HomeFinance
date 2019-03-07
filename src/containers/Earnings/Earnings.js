@@ -315,11 +315,9 @@ class Earnings extends Component {
       const tableSize = 10;
       let filteredData = [];
       const selectOptions = this.props.selectOptions ? this.props.selectOptions : this.state.selectOptions;
-      console.log("selectOptions", selectOptions);
       const currentUserOptions = selectOptions.filter((option)=>{
           return (option.user === this.props.activeUser || option.user === 'all')
       });
-      console.log('currentUserOptions', currentUserOptions);
       const select = <Select
           label="Choose category"
           value={this.state.earningCategory}
@@ -444,7 +442,6 @@ class Earnings extends Component {
   }
 }
  function mapStateToProps(state){
-    console.log(state.myCabinet.usersData);
     return{
          activeUser: state.auth.activeUser,
          earnings: state.myCabinet.showEarnings,
