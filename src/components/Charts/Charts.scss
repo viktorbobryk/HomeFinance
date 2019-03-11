@@ -4,7 +4,7 @@
   height: 300px;
   position: relative;
   overflow: hidden;
-  padding-bottom: 20px;
+  padding-bottom: 40px;
   .chartHeader{
     position: relative;
     background: $error;
@@ -15,21 +15,26 @@
     background: $darkGrey;
     position: absolute;
     right: 0;
-    bottom: 5px;
+    bottom: 0;
     padding: 10px;
-    height: 120px;
-    width: 180px;
+    height: 110px;
+    width: 95px;
     color: $white;
     transition: all 0.6s ease-out;
+    input[type="submit"]{
+      margin-top: 10px;
+      background-color: $primary;
+    }
   }
   .toggleView{
     position: relative;
     display: inline-block;
-    left: -125px;
-    bottom: 1px;
+    left: -92px;
+    bottom: 10px;
     line-height: 25px;
+
     text-align: center;
-    width: 115px;
+    width: 80px;
     height: 25px;
     background: $primary;
     &:hover{
