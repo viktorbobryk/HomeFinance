@@ -2,14 +2,16 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Bar, Line, Pie, Bubble, Doughnut, Polar} from 'react-chartjs-2';
 import classes from './Charts.scss';
+import _ from 'lodash';
 import Button from '../../components/UI/Button/Button';
 import {fetchSpending, fetchEarnings} from '../../store/actions/myCabinet';
-import axios from "../../axios/axios";
-
 
 class Charts extends Component {
-    componentWillMount(){
-        console.log('componentWillMount');
+    componentDidMount(){
+        this.props.fetchEarnings();
+        setTimeout(()=>{this.getChartData('earnings')});
+        // document.getElementById('clicked').click();
+        // console.log("CLICKED");
     }
     chartType = {
         bar: Bar,
@@ -25,30 +27,10 @@ class Charts extends Component {
     chartType: "bar",
     chartHeader: '',
     toggleType: false,
-    chartData: {
-      labels: ["Kyiv", "Lviv", "Rivne", "London"],
-      datasets:[
-          {
-            label: 'Population',
-            data:[
-                3000000,
-                700000,
-                300000,
-                10000000
-            ],
-              backgroundColor:[
-                  'rgba(255, 99, 132, 0.6)',
-                  'rgba(54, 162, 235, 0.6)',
-                  'rgba(255, 206, 86, 0.6)',
-                  'rgba(75, 192, 192, 0.6)'
-              ]
-          }
-      ]
-    }
+    chartData: {}
   };
 
     getChartData = (val)=>{
-        console.log(this.state.chartData.datasets[0].label);
         const res = this.props.chartData || [];
         let data;
         let labels;
@@ -82,18 +64,18 @@ class Charts extends Component {
             label = "Spending";
             chartHeader = 'Spending';
         }
+        const backgroundColors = [];
+        for(let i=0; i<labels.length; i++){
+            backgroundColors.push(this.dynamicColors());
+        }
         const chartData = {
-            labels: labels,
+
+            labels: _.orderBy(labels),
             datasets:[
                 {
                     label: label,
                     data:data,
-                    backgroundColor:[
-                        'rgba(255, 99, 132, 0.6)',
-                        'rgba(54, 162, 235, 0.6)',
-                        'rgba(255, 206, 86, 0.6)',
-                        'rgba(75, 192, 192, 0.6)'
-                    ]
+                    backgroundColor: backgroundColors
                 }
             ]
         };
@@ -101,6 +83,13 @@ class Charts extends Component {
             chartData: chartData,
             chartHeader: chartHeader
         })
+    };
+     dynamicColors = ()=> {
+        const r = Math.floor(Math.random() * 255);
+        const g = Math.floor(Math.random() * 255);
+        const b = Math.floor(Math.random() * 255);
+        const a = 0.7;
+        return "rgba(" + r + "," + g + "," + b + "," + a + ")";
     };
     chooseChartData = (val)=>{
         this.setState({
