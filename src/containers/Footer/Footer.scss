@@ -5,6 +5,7 @@
   text-align: center;
   ul{
     display: flex;
+    flex-wrap: wrap;
     background-color: $grey;
     margin-top: 0;
     padding: 0;
@@ -23,6 +24,19 @@
       }
       &:hover{
         background-color: $darkGrey;
+      }
+    }
+  }
+}
+@media(max-width: 768px){
+  .Footer{
+    ul{
+      li{
+        border: none;
+        padding: 5px 10px;
+        &:last-child{
+          border-right: none;
+        }
       }
     }
   }

@@ -72,12 +72,12 @@ class Home extends Component {
                             <li>Say goodbye to late fees.</li>
                         </ul>
                     </div>
-                    <div>
+                    <div className={classes.itemImg}>
                         <img src={require("./images/bills.jpg")} alt="bills"/>
                     </div>
                 </div>
                 <div className={classes.contentItem}>
-                    <div>
+                    <div className={classes.itemImg}>
                         <img src={require("./images/personalized.jpg")} alt="personalized"/>
                     </div>
                     <div className={classes.itemText}>

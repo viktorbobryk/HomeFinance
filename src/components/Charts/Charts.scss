@@ -4,7 +4,7 @@
   height: 300px;
   position: relative;
   overflow: hidden;
-  padding-bottom: 40px;
+  padding-bottom: 50px;
   .chartHeader{
     position: relative;
     background: $error;
@@ -39,6 +39,13 @@
     background: $primary;
     &:hover{
       cursor: pointer;
+    }
+  }
+}
+.Charts{
+  .chartHeader{
+    button{
+      padding: 9px;
     }
   }
 }

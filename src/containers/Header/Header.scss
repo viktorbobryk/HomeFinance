@@ -7,7 +7,7 @@
     margin-top: 0;
     padding-top: 10px;
   }
-  nav {
+  .desktopOnly{
     display: flex;
     background-color: #979797;
     justify-content: space-between;
@@ -34,6 +34,87 @@
           }
           &:hover{
             background-color: $darkGrey;
+          }
+        }
+      }
+    }
+  }
+  .mobileOnly{
+    display: none;
+  }
+}
+@media(max-width: 768px) {
+  .Header{
+    .desktopOnly{
+      display: none;
+    }
+    .mobileOnly{
+      display: flex;
+      background-color: $grey;
+      justify-content: space-between;
+      position: relative;
+      .authElements{
+          display: flex;
+          justify-content: space-between;
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          li {
+            border-right: 1px solid $white;
+            &:first-child{
+              border-left: 1px solid $white;
+            }
+            a{
+              display: block;
+              color: $white;
+              text-align: center;
+              padding: 14px 14px;
+              text-decoration: none;
+              text-transform: uppercase;
+              &.active {
+                background-color: $darkGrey;
+              }
+              &:hover{
+                background-color: $darkGrey;
+              }
+            }
+          }
+      }
+      i{
+        color: $white;
+        padding: 8px;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+    .burgerElements{
+      flex-direction: column;
+      border: 2px solid $white;
+      background: $grey;
+      position: absolute;
+      left: 0;
+      top: 48px;
+      list-style-type: none;
+      margin: 0;
+      padding-left: 0;
+      width: 100px;
+      color: $white;
+      transition: all 0.4s ease-out;
+      li{
+        a{
+          display: inline-block;
+          width: calc(100% - 10px);
+          text-decoration: none;
+          text-transform: uppercase;
+          padding: 5px;
+          color: $white;
+          &.active {
+            background-color: $darkGrey;
+          }
+          &:hover{
+            background-color: $darkGrey;
+            cursor: pointer;
           }
         }
       }

@@ -119,13 +119,13 @@ class Charts extends Component {
                     onClick={()=>{this.chooseChartData("earnings"); this.props.fetchEarnings(); setTimeout(()=>{this.getChartData('earnings')}, 200)}}
                     id='clicked'
                 >
-                    show earnings chart
+                    earnings chart
                 </Button>
                 <Button
                     type={(this.state.chooseChartData === 'spending') ? "activeHeader" : 'header'}
                     onClick={()=>{this.chooseChartData("spending"); this.props.fetchSpending();  setTimeout(()=>{this.getChartData('spending')}, 200)}}
                 >
-                    show spending chart
+                    spending chart
                 </Button>
             </div>
             <div className={classes.chartType} style={{transform: this.state.toggleType ? 'translateX(0)' : 'translateX(120px)',
@@ -152,10 +152,10 @@ class Charts extends Component {
                         text: this.state.chartHeader,
                         fontSize: 25
                     },
-                    legend:{
-                        display: true,
-                        position: 'right'
-                    },
+                    // legend:{
+                    //     display: true,
+                    //     position: 'right'
+                    // },
                     maintainAspectRatio: false
                 }}
             />;

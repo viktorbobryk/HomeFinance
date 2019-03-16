@@ -117,7 +117,59 @@
       .itemText{
         padding-left: 20px;
       }
+      .itemImg{
+        display: block;
+      }
     }
   }
 }
+@media(max-width: 768px) {
+.Home{
+  .header{
+    padding: 20px;
+    align-items: center;
+    nav{
+      ul{
+        justify-content: center;
+        li{
+          margin: 5px;
+        }
+      }
+    }
+  }
+  .content{
+    .contentItem{
+      .itemImg{
+        display: none;
+      }
+    }
+    .cards{
+      .cardItem{
+        margin: 5px;
+      }
+    }
+  }
 
+}
+}
+@media(max-width: 400px){
+  .Home{
+    .header{
+      nav{
+        ul{
+          flex-direction: column;
+          a{
+            padding: 12px;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+    .content{
+      .cards{
+        flex-direction: column;
+      }
+    }
+
+  }
+}

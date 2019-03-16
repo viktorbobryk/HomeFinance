@@ -18,8 +18,17 @@
     background: $disabled;
     box-shadow: 2px 2px 2px rgba(0,0,0, .5);
     width: 50%;
+    max-width: 300px;
     margin: 0 auto 30px;
     padding: 15px;
     border-radius: 5px;
+  }
+}
+@media(max-width: 400px){
+  .Auth{
+    .AuthForm{
+      max-width: 250px;
+    }
+
   }
 }

@@ -5,6 +5,14 @@ import {connect} from 'react-redux'
 
 
 class Header extends Component {
+    state = {
+        showMenu: false
+    };
+    toggleMenuHandler = ()=>{
+      this.setState({
+          showMenu: !this.state.showMenu
+      })
+    };
     render() {
         let linksLeft = [
             {to: '/', label: 'Home', exact: true},
@@ -12,7 +20,6 @@ class Header extends Component {
             {to: '/blog', label: 'Blog', exact: false}
         ];
         let linksRight = [
-            {to: '/facebook', label: 'Facebook', exact: false},
             {to: '/login', label: 'Login', exact: false},
             {to: '/registration', label: 'Signup', exact: false}
         ];
@@ -63,11 +70,21 @@ class Header extends Component {
             <React.Fragment>
                 <div className={classes.Header}>
                     <h1>Home Finance</h1>
-                    <nav>
+                    <nav className={classes.desktopOnly}>
                         <ul>
                             {renderLinksLeft()}
                         </ul>
                         <ul>
+                            {renderLinksRight()}
+                        </ul>
+                    </nav>
+                    <nav className={classes.mobileOnly}>
+                        <i className="fas fa-bars fa-2x" style={{display: this.state.showMenu ? 'none' : 'block'}} onClick={this.toggleMenuHandler}></i>
+                        <i className="fas fa-times fa-2x"  style={{display: this.state.showMenu ? 'block' : 'none'}} onClick={this.toggleMenuHandler}></i>
+                        <ul  className={classes.burgerElements} style={{transform: this.state.showMenu ? 'translateX(0)' : 'translateX(-204px)'}}>
+                            {renderLinksLeft()}
+                        </ul>
+                        <ul className={classes.authElements}>
                             {renderLinksRight()}
                         </ul>
                     </nav>

@@ -46,3 +46,28 @@
  }
 
 }
+@media(max-width: 768px){
+  .Earnings{
+    .SearchPanel{
+      width: 100%;
+    }
+  }
+
+}
+@media(max-width: 400px){
+  .Earnings{
+    .earningsHeader{
+      button{
+        padding: 9px;
+      }
+    }
+    .SearchPanel{
+      .header{
+        button{
+          padding: 5px 10px;
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}

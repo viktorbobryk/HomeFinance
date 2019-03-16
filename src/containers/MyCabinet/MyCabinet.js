@@ -42,7 +42,6 @@ class MyCabinet extends Component {
           {to: `${path}/earnings`, label: 'earnings', exact: true, id: 0},
           {to: `${path}/spending`, label: 'spending', exact: true,id: 1},
           {to: `${path}/charts`, label: 'charts', exact: true, id: 2},
-          {to: `${path}/other`, label: 'other', exact: true, id: 3},
       ];
 
 
@@ -77,7 +76,14 @@ class MyCabinet extends Component {
                 deleteUser={this.props.deleteUser}
                 toggleView={this.toggleModalInfoHandler}
             />
-            <div className={classes.userInfo}>Manage your family budget with Home Finance &trade;<span>{this.props.activeUser}</span> <span><i className="fas fa-user-circle fa-2x"></i></span><Button type='error' onClick={this.toggleModalInfoHandler}>Delete account</Button></div>
+            <div className={classes.userInfo}>
+                <span className={classes.slogan}>Manage your family budget with Home Finance &trade;</span>
+                <Button type='error' onClick={this.toggleModalInfoHandler}>Delete account</Button>
+                <div>
+                    <span>{this.props.activeUser}</span>
+                    <span className={classes.userImg}><i className="fas fa-user-circle fa-2x"></i></span>
+                </div>
+            </div>
             <nav>
                 <ul>
                     {renderLinks()}
